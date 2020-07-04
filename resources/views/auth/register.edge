@@ -1,0 +1,53 @@
+@layout('layouts/main')
+
+@section('content')
+<div class="container">
+  <h1>Crear cuenta</h1>
+  <form class="form" action="" method="post">
+    {{ csrfField() }}
+
+    <div class="form-group">
+      <label for="">Nombre de usuario</label>
+      <input class="form-control" type="text" name="username" value="{{ flashMessages.get('username') || '' }}">
+      @if(flashMessages.has('errors.username'))
+      <small class="form-text text-muted">
+        {{flashMessages.get('errors.username')}}
+      </small>
+      @endif
+    </div>
+
+    <div class="form-group">
+      <label for="">Direccion de correo</label>
+      <input class="form-control" type="email" name="email" value="{{ flashMessages.get('email') || '' }}">
+      @if(flashMessages.has('errors.email'))
+      <small class="form-text text-muted">
+        {{flashMessages.get('errors.email')}}
+      </small>
+      @endif
+    </div>
+
+    <div class="form-group">
+      <label for="">Contraseña</label>
+      <input class="form-control" type="password" name="password" value="{{ flashMessages.get('password') || '' }}">
+      @if(flashMessages.has('errors.password'))
+      <small class="form-text text-muted">
+        {{flashMessages.get('errors.password')}}
+      </small>
+      @endif
+    </div>
+
+    <div class="form-group">
+      <label for="">Reintroducir contraseña</label>
+      <input class="form-control" type="password" name="password_confirmation" value="{{ flashMessages.get('password_confirmation') || '' }}">
+      @if(flashMessages.has('errors.password_confirmation'))
+      <small class="form-text text-muted">
+        {{flashMessages.get('errors.password_confirmation')}}
+      </small>
+      @endif
+    </div>
+
+    <button class="btn btn-primary" type="submit">OK</button>
+  </form>
+
+</div>
+@endsection

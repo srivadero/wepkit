@@ -1,0 +1,30 @@
+@layout('layouts/main')
+
+@section('content')
+<div class="container">
+  <h1>Iniciar sesion</h1>
+  <form class="form" action="" method="post">
+    {{ csrfField() }}
+
+    <div class="form-group">
+      <label for="">Correo electronico</label>
+      <input class="form-control" type="text" name="uid" value="{{ flashMessages.get('uid') || ''}}">
+      @if(flashMessages.has('auth.errors.uid'))
+      <small class="form-text text-muted">
+        {{flashMessages.get('auth.errors.uid')}}
+      </small>
+      @endif
+    </div>
+    <div class="form-group">
+      <label for="">Contraseña</label>
+      <input class="form-control" type="password" name="password" value="{{ flashMessages.get('password') || '' }}">
+      @if(flashMessages.has('auth.errors.password'))
+      <small class="form-text text-muted">
+        {{flashMessages.get('auth.errors.password')}}
+      </small>
+      @endif
+    </div>
+    <button class="btn btn-primary" type="submit">OK</button>
+  </form>
+</div>
+@endsection
