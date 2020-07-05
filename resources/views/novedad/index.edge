@@ -1,0 +1,95 @@
+@layout('layouts/main')
+
+@set('TITLE', 'Novedades')
+@set('BUTTON_NEW', 'Agregar novedad')
+@set('BUTTON_EDIT', 'Editar')
+@set('BUTTON_SHOW', 'Ver')
+@set('ROUTE_NEW', 'novedad.create')
+@set('ROUTE_EDIT', 'novedad.edit')
+@set('ROUTE_SHOW', 'novedad.show')
+
+@section('content')
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <h1>{{ TITLE }}</h1>
+  <a class="btn btn-primary btn-sm" href="{{ route( ROUTE_NEW ) }}" role="button">{{ BUTTON_NEW }}</a>
+</div>
+
+{{--  <nav class="nav nav-tabs">
+  <a class="nav-link active" href="{{ route('novedad.index') }}">Recientes</a>
+  <a class="nav-link" href="{{ route('novedad.filter') }}">Filtradas</a>
+  <a class="nav-link" href="#">Pendientes</a>
+  <a class="nav-link" href="#">Archivadas</a>
+</nav>  --}}
+
+<div class="dropdown">
+  <a class="btn btn-default btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+    aria-haspopup="true" aria-expanded="false">
+    Filtrar
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+  <form action="{{ route('novedad.filter') }}" class="px-4 py-3" method="POST">
+      {{ csrfField() }}
+      <div class="form-group">
+        <label for="">Camara</label>
+        <select class="form-control" name="camara">
+          <option value=""></option>
+          @each(camara in camaras)
+          <option value="{{ camara.id }}" {{ camara.selected ? 'selected' : ''}}>{{ camara.nombre }}</option>
+          @endeach
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="">Autor</label>
+        <select class="form-control" name="autor">
+          <option value=""></option>
+          <option value="1">User1</option>
+          <option value="2">User2</option>
+          <option value="3">User3</option>
+          <option value="4">User4</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
+  </div>
+</div>
+
+<table class="table table-sm">
+  <thead class="thead-dark">
+    <tr>
+      <th>Id</th>
+      <th>Fecha</th>
+      <th>Descripcion</th>
+      <th>Camara</th>
+      <th>acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    @each(novedad in novedades)
+    <tr>
+      <td>{{ novedad.id }}</td>
+      <td>{{ datetime(novedad.fecha) }}</td>
+      <td>{{ novedad.descripcion }}</td>
+      <td>{{ novedad.camara.nombre }}</td>
+      <td>
+        <a class="btn btn-link" href="{{ route(ROUTE_EDIT, { params: { 'id': novedad.id }}) }}">{{ BUTTON_EDIT }}</a>
+        {{--  <a class="btn btn-link" href="{{ route(ROUTE_SHOW, { params: { 'id': novedad.id }})
+        }}">{{ BUTTON_SHOW }}</a> --}}
+      </td>
+    </tr>
+    @endeach
+  </tbody>
+</table>
+@endsection
+
+
+@section('javascripts')
+<script src="/js/tablesort.js"></script>
+<script>
+  $(document).ready(function(){
+    $('table').tablesort();
+  });
+</script>
+@endsection

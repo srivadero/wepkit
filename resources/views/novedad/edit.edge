@@ -1,0 +1,49 @@
+@layout('layouts/main')
+
+@set('TITLE', 'Novedad')
+@set('ROUTE_STORE', 'novedad.update')
+@set('ROUTE_INDEX', 'novedad.index')
+
+@section('content')
+<h1>{{ TITLE }}</h1>
+<form action="{{ route(ROUTE_STORE, { params: { id: novedad.id }}) }}?_method=PUT" method="POST">
+  {{ csrfField() }}
+
+  <div class="form-group">
+    <label>Fecha</label>
+    <input type="text" class="form-control" name="fecha" value="{{ flashMessages.has('errors.fecha') ? flashMessages.get('fecha') : datetime(novedad.fecha) }}">
+    @if(flashMessages.has('errors.fecha'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.fecha') }}
+    </small>
+    @endif
+  </div>
+
+  <div class="form-group">
+    <label>Descripcion</label>
+    <input type="text" class="form-control" name="descripcion" value="{{ flashMessages.has('errors.descripcion') ? flashMessages.get('descripcion') : novedad.descripcion }}">
+    @if(flashMessages.has('errors.descripcion'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.descripcion') }}
+    </small>
+    @endif
+  </div>
+{{--
+  <div class="form-group">
+    <label>Aplica a </label>
+    <select class="form-control" name="camara[]" multiple>
+      @each(camara in camaras)
+    <option value="{{camara.id}}">{{ camara.nombre }}</option>
+      @endeach
+    </select>
+    @if(flashMessages.has('errors.camara'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.camara') }}
+    </small>
+    @endif
+  </div>
+  --}}
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="{{ route(ROUTE_INDEX) }}" class="btn btn-link">Cancelar</a>
+</form>
+@endsection

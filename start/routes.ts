@@ -22,3 +22,7 @@ import Route from '@ioc:Adonis/Core/Route'
 import './routes/auth'
 
 Route.on('/').render('welcome')
+Route.resource('camara', 'CamarasController')
+Route.resource('camara.novedad', 'NovedadsController')
+  // .except(['update'])
+  // .only(['index', 'create', 'store', 'show', 'edit'])

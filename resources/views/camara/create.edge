@@ -1,0 +1,25 @@
+@layout('layouts/main')
+
+@set('TITLE', 'Nueva Camara')
+@set('ROUTE_STORE', 'camara.store')
+@set('ROUTE_INDEX', 'camara.index')
+
+@section('content')
+<h1>{{ TITLE }}</h1>
+<form action="{{ route(ROUTE_STORE) }}" method="POST">
+  {{ csrfField() }}
+
+  <div class="form-group">
+    <label>Nombre</label>
+    <input type="text" class="form-control" name="nombre" value="{{ flashMessages.get('nombre') || '' }}">
+    @if(flashMessages.has('errors.nombre'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.nombre') }}
+    </small>
+    @endif
+  </div>
+
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="{{ route(ROUTE_INDEX) }}" class="btn btn-link">Cancelar</a>
+</form>
+@endsection

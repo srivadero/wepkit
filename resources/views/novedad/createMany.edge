@@ -1,0 +1,76 @@
+@layout('layouts/main')
+
+@set('TITLE', 'Novedad')
+@set('ROUTE_STORE', 'novedad.store')
+@set('ROUTE_INDEX', 'novedad.index')
+
+@section('content')
+<h1>{{ TITLE }}</h1>
+<form action="{{ route(ROUTE_STORE) }}" method="POST">
+  {{ csrfField() }}
+
+  <div class="form-group">
+    <label>Fecha</label>
+    <input type="text" class="form-control" name="fecha" value="{{ flashMessages.get('fecha') || '' }}">
+    @if(flashMessages.has('errors.fecha'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.fecha') }}
+    </small>
+    @endif
+  </div>
+
+  <div class="form-group">
+    <label>Descripcion</label>
+    <input type="text" class="form-control" name="descripcion" value="{{ flashMessages.get('descripcion') || '' }}">
+    @if(flashMessages.has('errors.descripcion'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.descripcion') }}
+    </small>
+    @endif
+  </div>
+
+  <div class="form-group">
+    @if(flashMessages.has('camara'))
+    @set('arreglo', flashMessages.get('camara'))
+    @else
+    @set('arreglo', [ 0,  1])
+    @endif
+
+    <label>Aplica a </label>
+    <select class="form-control pillbox" name="camara[]" multiple>
+      @each(camara in camaras)
+      <option value="{{camara.id}}" {{ arreglo.includes(''+camara.id)? 'selected=selected' : '' }}>
+      {{ camara.nombre }} - {{arreglo.includes(''+camara.id) }}</option>
+      @endeach
+    </select>
+    @if(flashMessages.has('errors.camara'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.camara') }}
+    </small>
+    @endif
+  </div>
+
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="{{ route(ROUTE_INDEX) }}" class="btn btn-link">Cancelar</a>
+</form>
+<p></p>
+
+
+
+@endsection
+
+@section('stylesheets')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css">
+<link href="/css/select2-bootstrap4.css" rel="stylesheet" />
+@endsection
+
+@section('javascripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $('.pillbox').select2({
+      theme: 'bootstrap4',
+    });
+  });
+</script>
+@endsection

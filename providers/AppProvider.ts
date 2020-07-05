@@ -1,4 +1,5 @@
 import { IocContract } from '@adonisjs/fold'
+import { DateTime } from 'luxon'
 
 export default class AppProvider {
   constructor (protected $container: IocContract) {
@@ -8,8 +9,15 @@ export default class AppProvider {
     // Register your own bindings
   }
 
-  public boot () {
+  public async boot () {
     // IoC container is ready
+    const View = (await import('@ioc:Adonis/Core/View')).default
+    View.global('date', (valor: DateTime) => {
+      return valor.toFormat('dd/LL/yyyy')
+    })
+    View.global('datetime', (valor: DateTime) => {
+      return valor.toFormat('dd/LL/yyyy HH:mm')
+    })
   }
 
   public shutdown () {
