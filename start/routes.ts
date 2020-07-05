@@ -24,5 +24,6 @@ import './routes/auth'
 Route.on('/').render('welcome')
 Route.resource('camara', 'CamarasController')
 Route.resource('camara.novedad', 'NovedadsController')
+Route.resource('novedad', 'NovedadsController').only(['index'])
   // .except(['update'])
   // .only(['index', 'create', 'store', 'show', 'edit'])

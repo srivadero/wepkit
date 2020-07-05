@@ -56,21 +56,23 @@ class NovedadEditValidator {
 }
 
 export default class NovedadsController {
-  // public async index({ request, view }: HttpContextContract) {
-  //   const data = request.only(['camara', 'autor'])
-  //   const camaras = await Camara.query().orderBy('nombre', 'asc')
-  //   if (data.camara) {
-  //     camaras.forEach((camara) => {
-  //       camara.selected = (camara.id == data.camara) ? true : false
-  //     })
-  //   }
-  //   const novedades = await Novedad
-  //     .query()
-  //     .apply((scopes) => { scopes.fromCamara(data.camara) })
-  //     .preload('camara')
-  //     .orderBy('fecha', 'desc')
-  //   return view.render('novedad/index', { camaras, novedades })
-  // }
+  public async index({ request, view }: HttpContextContract) {
+    // const data = request.only(['camara', 'autor'])
+    // const camaras = await Camara.query().orderBy('nombre', 'asc')
+    // if (data.camara) {
+    //   camaras.forEach((camara) => {
+    //     camara.selected = (camara.id == data.camara) ? true : false
+    //   })
+    // }
+    // const novedades = await Novedad
+    //   .query()
+    //   .apply((scopes) => { scopes.fromCamara(data.camara) })
+    //   .preload('camara')
+    //   .orderBy('fecha', 'desc')
+    // return view.render('novedad/index', { camaras, novedades })
+    const novedades = await Novedad.query().preload('camara').orderBy('fecha', 'desc')
+    return view.render('novedad/index', { novedades })
+  }
 
   public async create({ params, view }: HttpContextContract) {
     const camara = await Camara.find(params.camara_id)
