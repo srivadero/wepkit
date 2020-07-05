@@ -92,27 +92,27 @@ export default class NovedadsController {
       return response.redirect().toRoute('camara.index')
   }
 
-  // public async edit({ params, response, session, view }: HttpContextContract) {
-  //   const novedad = await Novedad.find(params.id)
-  //   if (!novedad) {
-  //     session.flash({ error: Message.NOT_FOUND })
-  //     return response.redirect().toRoute(PATH.INDEX)
-  //   }
-  //   return view.render('novedad/edit', { novedad })
-  // }
+  public async edit({ params, response, session, view }: HttpContextContract) {
+    const novedad = await Novedad.find(params.id)
+    if (!novedad) {
+      session.flash({ error: Message.NOT_FOUND })
+      return response.redirect().toRoute(PATH.INDEX)
+    }
+    return view.render('novedad/edit', { novedad })
+  }
 
-  // public async update({ params, request, response, session }: HttpContextContract) {
-  //   const data = await request.validate(NovedadEditValidator)
-  //   const novedad = await Novedad.find(params.id)
-  //   if (!novedad) {
-  //     session.flash({ error: Message.NOT_FOUND })
-  //   }
-  //   else {
-  //     novedad.merge(data)
-  //     await novedad.save()
-  //     session.flash({ success: Message.UPDATED })
-  //   }
-  //   return response.redirect().toRoute(PATH.INDEX)
-  // }
+  public async update({ params, request, response, session }: HttpContextContract) {
+    const data = await request.validate(NovedadEditValidator)
+    const novedad = await Novedad.find(params.id)
+    if (!novedad) {
+      session.flash({ error: Message.NOT_FOUND })
+    }
+    else {
+      novedad.merge(data)
+      await novedad.save()
+      session.flash({ success: Message.UPDATED })
+    }
+    return response.redirect().toRoute('camara.show', { params: { id: params.camara_id} })
+  }
 
 }

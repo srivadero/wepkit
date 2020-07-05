@@ -1,12 +1,12 @@
 @layout('layouts/main')
 
 @set('TITLE', 'Novedad')
-@set('ROUTE_STORE', 'novedad.update')
-@set('ROUTE_INDEX', 'novedad.index')
+@set('ROUTE_STORE', 'camara.novedad.update')
+@set('ROUTE_INDEX', 'camara.show')
 
 @section('content')
 <h1>{{ TITLE }}</h1>
-<form action="{{ route(ROUTE_STORE, { params: { id: novedad.id }}) }}?_method=PUT" method="POST">
+<form action="{{ route(ROUTE_STORE, { params: { camara_id: novedad.camaraId, id: novedad.id }}) }}?_method=PUT" method="POST">
   {{ csrfField() }}
 
   <div class="form-group">
@@ -44,6 +44,6 @@
   </div>
   --}}
   <button type="submit" class="btn btn-primary">Guardar</button>
-  <a href="{{ route(ROUTE_INDEX) }}" class="btn btn-link">Cancelar</a>
+  <a href="{{ route(ROUTE_INDEX, { id: novedad.camaraId }) }}" class="btn btn-link">Cancelar</a>
 </form>
 @endsection
