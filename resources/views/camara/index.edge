@@ -1,17 +1,9 @@
 @layout('layouts/main')
 
-@set('TITLE', 'Gestion de Camaras')
-@set('BUTTON_NEW', 'Agregar camara')
-@set('BUTTON_EDIT', 'Editar')
-@set('BUTTON_SHOW', 'Ver')
-@set('ROUTE_NEW', 'camara.create')
-@set('ROUTE_EDIT', 'camara.edit')
-@set('ROUTE_SHOW', 'camara.show')
-
 @section('content')
 <div class="d-flex align-items-center justify-content-between mb-4">
-  <h1>{{ TITLE}}</h1>
-  <a href="{{ route( ROUTE_NEW ) }}" class="btn btn-sm btn-primary">{{ BUTTON_NEW }}</a>
+  <h1>Gestion de camaras</h1>
+  <a href="{{ route('camara.create') }}" class="btn btn-sm btn-primary">Agregar camara</a>
 </div>
 
 <table class="table table-sm">
@@ -28,35 +20,12 @@
       <td>{{ camara.id }}</td>
       <td>{{ camara.nombre }}</td>
       <td>
-        <a class="btn btn-link" href="{{ route(ROUTE_SHOW, { params: { 'id': camara.id }}) }}">Novedades</a>
-        <a class="btn btn-link" href="{{ route(ROUTE_EDIT, { params: { 'id': camara.id }}) }}">Editar</a>
-        {{--
-        <a class="btn btn-link" href="#" data-toggle="modal" data-target="#deleteModal">Eliminar</a>
-        --}}
+        <a class="btn btn-link" href="{{ route('camara.show', { params: { 'id': camara.id }}) }}">Novedades</a>
+        <a class="btn btn-link" href="{{ route('camara.edit', { params: { 'id': camara.id }}) }}">Editar</a>
       </td>
     </tr>
     @endeach
   </tbody>
 </table>
-
-  <!-- Delete Modal-->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Desea eliminar?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Selecciona "Eliminar" si deseas borrar el elemento.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="#">Eliminar</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
 @endsection

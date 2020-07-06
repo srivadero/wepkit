@@ -1,17 +1,14 @@
 @layout('layouts/main')
 
-@set('TITLE', 'Modificar Camara')
-@set('ROUTE_STORE', 'camara.update')
-@set('ROUTE_INDEX', 'camara.index')
-
 @section('content')
-<h1>{{ TITLE }}</h1>
-<form action="{{ route(ROUTE_STORE, {'id': camara.id}) }}?_method=PUT" method="POST">
+<h1>Edicion de camara</h1>
+<form action="{{ route('camara.update', {'id': camara.id}) }}?_method=PUT" method="POST">
   {{ csrfField() }}
 
   <div class="form-group">
     <label>Nombre</label>
-    <input type="text" class="form-control" name="nombre" value="{{ flashMessages.has('errors.nombre') ? flashMessages.get('nombre') : camara.nombre }}">
+    <input type="text" class="form-control" name="nombre"
+      value="{{ flashMessages.has('errors.nombre') ? flashMessages.get('nombre') : camara.nombre }}">
     @if(flashMessages.has('errors.nombre'))
     <small class="form-text text-muted">
       {{ flashMessages.get('errors.nombre') }}
@@ -19,20 +16,8 @@
     @endif
   </div>
 
-  <div class="d-flex align-items-center justify-content-between mb-4">
-    <div>
-      <button type="submit" class="btn btn-primary">Guardar</button>
-      <a href="{{ route(ROUTE_INDEX) }}" class="btn btn-link">Cancelar</a>
-    </div>
-    {{--  <button form="deleteForm" type="submit" class="btn btn-danger">Eliminar</button>  --}}
-  </div>
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="{{ route('camara.index') }}" class="btn btn-link">Cancelar</a>
 </form>
 
-<form
-  id="deleteForm"
-  action="{{ route(ROUTE_STORE, {'id': camara.id}) }}?_method=DELETE"
-  method="post"
-  onsubmit="return confirm('Estas seguro que deseas eliminar este elemento?');">
-  {{ csrfField() }}
-</form>
 @endsection

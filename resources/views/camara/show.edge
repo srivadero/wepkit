@@ -4,31 +4,30 @@
 <div class="d-flex align-items-center justify-content-between mb-4">
   <h1>Camara {{ camara.nombre }}</h1>
   <div>
-    <a href="{{ route( 'camara.novedad.create', { params: {'camara_id': camara.id}} ) }}" class="btn btn-sm btn-primary">Agregar novedad</a>
+    <a href="{{ route( 'camara.novedad.create', { params: {'camara_id': camara.id}} ) }}"
+      class="btn btn-sm btn-primary">Agregar novedad</a>
     <a href="{{ route( 'camara.index' ) }}" class="btn btn-sm btn-secondary">Volver</a>
   </div>
 </div>
 
-<table class="table">
-  <thead>
+<table class="table table-sm">
+  <thead class="thead-dark">
     <tr>
-      <td>Id</td>
-      <td>Fecha</td>
-      <td>Descripcion</td>
-      <td></td>
+      <th>Fecha</th>
+      <th>Descripcion</th>
+      <th>acciones</th>
     </tr>
   </thead>
   <tbody>
     @each(novedad in novedades)
     <tr>
-      <td>{{ novedad.id }}</td>
       <td>{{ datetime(novedad.fecha) }}</td>
       <td>{{ novedad.descripcion }}</td>
       <td>
-      <a href="{{ route('camara.novedad.edit', {'camara_id': camara.id, 'id': novedad.id}) }}">Editar</a>
+        <a href="{{ route('camara.novedad.edit', {'camara_id': camara.id, 'id': novedad.id}) }}">Editar</a>
       </td>
     </tr>
-  @endeach
+    @endeach
   </tbody>
 </table>
 

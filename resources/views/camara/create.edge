@@ -1,12 +1,8 @@
 @layout('layouts/main')
 
-@set('TITLE', 'Nueva Camara')
-@set('ROUTE_STORE', 'camara.store')
-@set('ROUTE_INDEX', 'camara.index')
-
 @section('content')
-<h1>{{ TITLE }}</h1>
-<form action="{{ route(ROUTE_STORE) }}" method="POST">
+<h1>Nueva camara</h1>
+<form action="{{ route('camara.store') }}" method="POST">
   {{ csrfField() }}
 
   <div class="form-group">
@@ -20,6 +16,6 @@
   </div>
 
   <button type="submit" class="btn btn-primary">Guardar</button>
-  <a href="{{ route(ROUTE_INDEX) }}" class="btn btn-link">Cancelar</a>
+  <a href="{{ route('camara.index') }}" class="btn btn-link">Cancelar</a>
 </form>
 @endsection
