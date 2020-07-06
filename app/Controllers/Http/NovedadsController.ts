@@ -1,7 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Novedad from 'App/Models/Novedad'
 import Camara from 'App/Models/Camara'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import NovedadCreateValidator from 'App/Validators/novedad/CreateValidator'
+import NovedadEditValidator from 'App/Validators/novedad/EditValidator'
+import NovedadCreateManyValidator from 'App/Validators/novedad/CreateManyValidator'
 
 enum Message {
   'NOT_FOUND' = 'Elemento no encontrado',
@@ -11,48 +13,6 @@ enum Message {
 
 enum PATH {
   'INDEX' = 'novedad.index',
-}
-
-class NovedadValidator {
-  constructor(private ctx: HttpContextContract) {
-  }
-
-  public schema = schema.create({
-    fecha: schema.date({ format: 'd/L/yyyy H:m' }),
-    descripcion: schema.string({ escape: true, trim: true }, [rules.maxLength(150)]),
-    // camara: schema.array().members(schema.number())
-  })
-
-  public cacheKey = this.ctx.routeKey
-
-  public messages = {
-    'fecha.required': 'No puede estar vacio',
-    'fecha.format': 'Formato no valido',
-    'descripcion.required': 'No puede estar vacio',
-    'descripcion.maxLength': 'Maximo 150 caracteres',
-    'camara.required': 'Debe seleccionar uno'
-  }
-}
-
-class NovedadEditValidator {
-  constructor(private ctx: HttpContextContract) {
-  }
-
-  public schema = schema.create({
-    fecha: schema.date({ format: 'd/L/yyyy H:m' }),
-    descripcion: schema.string({ escape: true, trim: true }, [rules.maxLength(150)]),
-  })
-
-  public cacheKey = this.ctx.routeKey
-
-  public messages = {
-    'date.format': 'Formato de fecha invalido',
-    'fecha.required': 'No puede estar vacio',
-    'fecha.format': 'Formato no valido',
-    'descripcion.required': 'No puede estar vacio',
-    'descripcion.maxLength': 'Maximo 150 caracteres',
-    'camara.required': 'Debe seleccionar uno'
-  }
 }
 
 export default class NovedadsController {
@@ -80,18 +40,18 @@ export default class NovedadsController {
   }
 
   public async store({ params, request, response, session }: HttpContextContract) {
-    const data = await request.validate(NovedadValidator)
+    const data = await request.validate(NovedadCreateValidator)
     const camara = await Camara.find(params.camara_id)
-    if(camara){
-        const novedad = new Novedad
-        novedad.fecha = data.fecha
-        novedad.descripcion = data.descripcion
-        await camara.related('novedades').save(novedad)
-        session.flash({ success: Message.SAVED })
-        return response.redirect().toRoute('camara.show', { id: params.camara_id})
-      }
-      session.flash({ error: Message.NOT_FOUND })
-      return response.redirect().toRoute('camara.index')
+    if (camara) {
+      const novedad = new Novedad
+      novedad.fecha = data.fecha
+      novedad.descripcion = data.descripcion
+      await camara.related('novedades').save(novedad)
+      session.flash({ success: Message.SAVED })
+      return response.redirect().toRoute('camara.show', { id: params.camara_id })
+    }
+    session.flash({ error: Message.NOT_FOUND })
+    return response.redirect().toRoute('camara.index')
   }
 
   public async edit({ params, response, session, view }: HttpContextContract) {
@@ -114,27 +74,29 @@ export default class NovedadsController {
       await novedad.save()
       session.flash({ success: Message.UPDATED })
     }
-    return response.redirect().toRoute('camara.show', { params: { id: params.camara_id} })
+    return response.redirect().toRoute('camara.show', { params: { id: params.camara_id } })
   }
 
-  public async createMany({ params, view }: HttpContextContract) {
+  public async createMany({ view }: HttpContextContract) {
     const camaras = await Camara.query().orderBy('nombre', 'asc')
-    return view.render('novedad/createMany', { camaras})
+    return view.render('novedad/createMany', { camaras })
   }
 
-  public async storeMany({ params, request, response, session }: HttpContextContract) {
+  public async storeMany({ request, response, session }: HttpContextContract) {
     console.log(request.all())
-    // const data = await request.validate(NovedadValidator)
-    // const camara = await Camara.find(params.camara_id)
-    // if(camara){
-    //     const novedad = new Novedad
-    //     novedad.fecha = data.fecha
-    //     novedad.descripcion = data.descripcion
-    //     await camara.related('novedades').save(novedad)
-    //     session.flash({ success: Message.SAVED })
-    //     return response.redirect().toRoute('camara.show', { id: params.camara_id})
-    //   }
-    //   session.flash({ error: Message.NOT_FOUND })
-      return response.redirect().toRoute('novedad.index')
+    const data = await request.validate(NovedadCreateManyValidator)
+
+    data.camaras.forEach(async (elem) => {
+      const camara = await Camara.find(elem)
+      if (camara) {
+        const novedad = new Novedad
+        novedad.fecha = data.fecha
+        novedad.descripcion = data.descripcion
+        novedad.camaraId = elem
+        await novedad.save()
+      }
+    })
+    session.flash({ success: Message.SAVED })
+    return response.redirect().toRoute('novedad.index')
   }
 }

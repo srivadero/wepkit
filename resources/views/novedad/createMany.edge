@@ -36,6 +36,11 @@
       </div>
       @endeach
     </fieldset>
+    @if(flashMessages.has('errors.camaras'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.camaras') }}
+    </small>
+    @endif
   </div>
 
   <div class="form-group">
@@ -46,11 +51,6 @@
       @endeach
     </select>
   --}}
-    @if(flashMessages.has('errors.camara'))
-    <small class="form-text text-muted">
-      {{ flashMessages.get('errors.camara') }}
-    </small>
-    @endif
   </div>
 
   <button type="submit" class="btn btn-primary">Guardar</button>
