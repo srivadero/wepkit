@@ -56,7 +56,7 @@ class NovedadEditValidator {
 }
 
 export default class NovedadsController {
-  public async index({ request, view }: HttpContextContract) {
+  public async index({ view }: HttpContextContract) {
     // const data = request.only(['camara', 'autor'])
     // const camaras = await Camara.query().orderBy('nombre', 'asc')
     // if (data.camara) {

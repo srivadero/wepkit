@@ -1,32 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Camara from 'App/Models/Camara'
-// import Novedad from 'App/Models/Novedad'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import CamaraValidator from 'App/Validators/CamaraValidator'
 
 enum Message {
   'NOT_FOUND' = 'Elemento no encontrado',
   'SAVED' = 'Elemento creado',
   'UPDATED' = 'Elemento guardado',
-}
-
-enum PATH {
-  'INDEX' = 'camara.index',
-}
-
-class CamaraValidator {
-  constructor(private ctx: HttpContextContract) {
-  }
-
-  public schema = schema.create({
-    nombre: schema.string({ escape: true, trim: true }, [rules.maxLength(30)]),
-  })
-
-  public cacheKey = this.ctx.routeKey
-
-  public messages = {
-    'nombre.required': 'No puede estar vacio',
-    'nombre.maxLength': 'Maximo 30 caracteres',
-  }
 }
 
 export default class CamarasController {
@@ -46,14 +25,14 @@ export default class CamarasController {
     camara.merge(data)
     await camara.save()
     session.flash({ success: Message.SAVED })
-    return response.redirect().toRoute(PATH.INDEX)
+    return response.redirect().toRoute('camara.index')
   }
 
   public async show({ params, session, response, view }: HttpContextContract) {
     const camara = await Camara.find(params.id)
     if (!camara) {
       session.flash({ error: Message.NOT_FOUND })
-      return response.redirect().toRoute(PATH.INDEX)
+      return response.redirect().toRoute('camara.index')
     }
     const novedades = await camara.related('novedades').query()
     return view.render('camara/show', { camara, novedades })
@@ -63,7 +42,7 @@ export default class CamarasController {
     const camara = await Camara.find(params.id)
     if (!camara) {
       session.flash({ error: Message.NOT_FOUND })
-      return response.redirect().toRoute(PATH.INDEX)
+      return response.redirect().toRoute('camara.index')
     }
     return view.render('camara/edit', { camara })
   }
@@ -79,12 +58,12 @@ export default class CamarasController {
       await camara.save()
       session.flash({ success: Message.UPDATED })
     }
-    return response.redirect().toRoute(PATH.INDEX)
+    return response.redirect().toRoute('camara.index')
   }
 
   public async destroy({ response }: HttpContextContract) {
     console.log('Destroy elemente here')
-    return response.redirect().toRoute(PATH.INDEX)
+    return response.redirect().toRoute('camara.index')
   }
 
 }
