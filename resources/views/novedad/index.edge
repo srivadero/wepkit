@@ -55,6 +55,8 @@
     <p class="text-small mt-2 font-weight-light">
       {{ novedad.descripcion }}
     </p>
+    <hr>
+  <a href="{{ route('novedad.edit', { id: novedad.id })}}">Editar</a>
   </li>
   @endeach
 </ul>

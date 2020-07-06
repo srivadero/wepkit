@@ -99,4 +99,27 @@ export default class NovedadsController {
     session.flash({ success: Message.SAVED })
     return response.redirect().toRoute('novedad.index')
   }
+
+  public async editMany({ params, response, session, view }: HttpContextContract) {
+    const novedad = await Novedad.find(params.id)
+    if (!novedad) {
+      session.flash({ error: Message.NOT_FOUND })
+      return response.redirect().toRoute(PATH.INDEX)
+    }
+    return view.render('novedad/editMany', { novedad })
+  }
+
+  public async updateMany({ params, request, response, session }: HttpContextContract) {
+    const data = await request.validate(NovedadEditValidator)
+    const novedad = await Novedad.find(params.id)
+    if (!novedad) {
+      session.flash({ error: Message.NOT_FOUND })
+    }
+    else {
+      novedad.merge(data)
+      await novedad.save()
+      session.flash({ success: Message.UPDATED })
+    }
+    return response.redirect().toRoute('novedad.index')
+  }
 }
