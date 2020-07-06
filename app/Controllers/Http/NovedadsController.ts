@@ -117,4 +117,24 @@ export default class NovedadsController {
     return response.redirect().toRoute('camara.show', { params: { id: params.camara_id} })
   }
 
+  public async createMany({ params, view }: HttpContextContract) {
+    const camaras = await Camara.query().orderBy('nombre', 'asc')
+    return view.render('novedad/createMany', { camaras})
+  }
+
+  public async storeMany({ params, request, response, session }: HttpContextContract) {
+    console.log(request.all())
+    // const data = await request.validate(NovedadValidator)
+    // const camara = await Camara.find(params.camara_id)
+    // if(camara){
+    //     const novedad = new Novedad
+    //     novedad.fecha = data.fecha
+    //     novedad.descripcion = data.descripcion
+    //     await camara.related('novedades').save(novedad)
+    //     session.flash({ success: Message.SAVED })
+    //     return response.redirect().toRoute('camara.show', { id: params.camara_id})
+    //   }
+    //   session.flash({ error: Message.NOT_FOUND })
+      return response.redirect().toRoute('novedad.index')
+  }
 }

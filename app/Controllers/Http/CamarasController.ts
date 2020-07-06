@@ -34,7 +34,7 @@ export default class CamarasController {
       session.flash({ error: Message.NOT_FOUND })
       return response.redirect().toRoute('camara.index')
     }
-    const novedades = await camara.related('novedades').query()
+    const novedades = await camara.related('novedades').query().orderBy('fecha', 'desc')
     return view.render('camara/show', { camara, novedades })
   }
 
