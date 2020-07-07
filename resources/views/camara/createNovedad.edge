@@ -2,12 +2,12 @@
 
 @section('content')
 <h1>Novedad</h1>
-<form action="{{ route('novedad.update', { params: { id: novedad.id }}) }}?_method=PUT" method="POST">
+<form action="{{ route('camara.novedad.store', { params: { 'camara_id': camara.id }}) }}" method="POST">
   {{ csrfField() }}
 
   <div class="form-group">
     <label>Fecha</label>
-    <input type="text" class="form-control" name="fecha" value="{{ flashMessages.has('errors.fecha') ? flashMessages.get('fecha') : datetime(novedad.fecha) }}">
+    <input type="text" class="form-control" name="fecha" value="{{ flashMessages.get('fecha') || '' }}">
     @if(flashMessages.has('errors.fecha'))
     <small class="form-text text-muted">
       {{ flashMessages.get('errors.fecha') }}
@@ -17,7 +17,7 @@
 
   <div class="form-group">
     <label>Descripcion</label>
-    <input type="text" class="form-control" name="descripcion" value="{{ flashMessages.has('errors.descripcion') ? flashMessages.get('descripcion') : novedad.descripcion }}">
+    <input type="text" class="form-control" name="descripcion" value="{{ flashMessages.get('descripcion') || '' }}">
     @if(flashMessages.has('errors.descripcion'))
     <small class="form-text text-muted">
       {{ flashMessages.get('errors.descripcion') }}
@@ -26,6 +26,6 @@
   </div>
 
   <button type="submit" class="btn btn-primary">Guardar</button>
-  <a href="{{ route('novedad.index') }}" class="btn btn-link">Cancelar</a>
+  <a href="{{ route('camara.show', { params: { 'id': camara.id }}) }}" class="btn btn-link">Cancelar</a>
 </form>
 @endsection

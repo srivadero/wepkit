@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Novedad from 'App/Models/Novedad'
 import Camara from 'App/Models/Camara'
-import NovedadCreateValidator from 'App/Validators/novedad/CreateValidator'
 import NovedadEditValidator from 'App/Validators/novedad/EditValidator'
 import NovedadCreateManyValidator from 'App/Validators/novedad/CreateManyValidator'
 
@@ -9,10 +8,6 @@ enum Message {
   'NOT_FOUND' = 'Elemento no encontrado',
   'SAVED' = 'Elemento creado',
   'UPDATED' = 'Elemento guardado',
-}
-
-enum PATH {
-  'INDEX' = 'novedad.index',
 }
 
 export default class NovedadsController {
@@ -34,55 +29,12 @@ export default class NovedadsController {
     return view.render('novedad/index', { novedades })
   }
 
-  public async create({ params, view }: HttpContextContract) {
-    const camara = await Camara.find(params.camara_id)
-    return view.render('novedad/create', { camara })
-  }
-
-  public async store({ params, request, response, session }: HttpContextContract) {
-    const data = await request.validate(NovedadCreateValidator)
-    const camara = await Camara.find(params.camara_id)
-    if (camara) {
-      const novedad = new Novedad
-      novedad.fecha = data.fecha
-      novedad.descripcion = data.descripcion
-      await camara.related('novedades').save(novedad)
-      session.flash({ success: Message.SAVED })
-      return response.redirect().toRoute('camara.show', { id: params.camara_id })
-    }
-    session.flash({ error: Message.NOT_FOUND })
-    return response.redirect().toRoute('camara.index')
-  }
-
-  public async edit({ params, response, session, view }: HttpContextContract) {
-    const novedad = await Novedad.find(params.id)
-    if (!novedad) {
-      session.flash({ error: Message.NOT_FOUND })
-      return response.redirect().toRoute(PATH.INDEX)
-    }
-    return view.render('novedad/edit', { novedad })
-  }
-
-  public async update({ params, request, response, session }: HttpContextContract) {
-    const data = await request.validate(NovedadEditValidator)
-    const novedad = await Novedad.find(params.id)
-    if (!novedad) {
-      session.flash({ error: Message.NOT_FOUND })
-    }
-    else {
-      novedad.merge(data)
-      await novedad.save()
-      session.flash({ success: Message.UPDATED })
-    }
-    return response.redirect().toRoute('camara.show', { params: { id: params.camara_id } })
-  }
-
-  public async createMany({ view }: HttpContextContract) {
+  public async create({ view }: HttpContextContract) {
     const camaras = await Camara.query().orderBy('nombre', 'asc')
-    return view.render('novedad/createMany', { camaras })
+    return view.render('novedad/create', { camaras })
   }
 
-  public async storeMany({ request, response, session }: HttpContextContract) {
+  public async store({ request, response, session }: HttpContextContract) {
     console.log(request.all())
     const data = await request.validate(NovedadCreateManyValidator)
 
@@ -100,16 +52,16 @@ export default class NovedadsController {
     return response.redirect().toRoute('novedad.index')
   }
 
-  public async editMany({ params, response, session, view }: HttpContextContract) {
+  public async edit({ params, response, session, view }: HttpContextContract) {
     const novedad = await Novedad.find(params.id)
     if (!novedad) {
       session.flash({ error: Message.NOT_FOUND })
-      return response.redirect().toRoute(PATH.INDEX)
+      return response.redirect().toRoute('novedad.index')
     }
-    return view.render('novedad/editMany', { novedad })
+    return view.render('novedad/edit', { novedad })
   }
 
-  public async updateMany({ params, request, response, session }: HttpContextContract) {
+  public async update({ params, request, response, session }: HttpContextContract) {
     const data = await request.validate(NovedadEditValidator)
     const novedad = await Novedad.find(params.id)
     if (!novedad) {
