@@ -9,7 +9,7 @@
 <table class="table table-sm">
   <thead class="thead-dark">
     <tr>
-      <th>Id</th>
+      {{--  <th>Id</th>  --}}
       <th>Nombre</th>
       <th>acciones</th>
     </tr>
@@ -17,10 +17,10 @@
   <tbody>
     @each(camara in camaras)
     <tr>
-      <td>{{ camara.id }}</td>
+      {{--  <td>{{ camara.id }}</td>  --}}
       <td>{{ camara.nombre }}</td>
       <td>
-        <a class="btn btn-link" href="{{ route('camara.show', { params: { 'id': camara.id }}) }}">Novedades</a>
+        {{--  <a class="btn btn-link" href="{{ route('camara.show', { params: { 'id': camara.id }}) }}">Novedades</a>  --}}
         <a class="btn btn-link" href="{{ route('camara.edit', { params: { 'id': camara.id }}) }}">Editar</a>
       </td>
     </tr>
