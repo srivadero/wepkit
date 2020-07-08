@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { join } from 'path'
+import { join, isAbsolute, sep } from 'path'
 import getPort from 'get-port'
 import { configure } from 'japa'
 import sourceMapSupport from 'source-map-support'
@@ -23,13 +23,25 @@ async function startHttpServer() {
   await new Ignitor(__dirname).httpServer().start()
 }
 
+function getTestFiles () {
+  let userDefined = process.argv.slice(2)[0]
+  if (!userDefined) {
+    return 'build/test/**/*.spec.js'
+  }
+  if (isAbsolute(userDefined)) {
+    userDefined = userDefined.endsWith('.ts')
+      ? userDefined.replace(`${join(__dirname, '..')}${sep}`, '')
+      : userDefined.replace(`${join(__dirname)}${sep}`, '')
+  }
+  return `build/${userDefined.replace(/\.ts$|\.js$/, '')}.js`
+}
+
+
 /**
  * Configure test runner
  */
 configure({
-  files: [
-    'build/test/**/*.spec.js',
-  ],
+  files: getTestFiles(), // [ 'build/test/**/*.spec.js', ]
   before: [
     runMigrations,
     startHttpServer,

@@ -11,22 +11,20 @@ enum Message {
 }
 
 export default class NovedadsController {
-  public async index({ view }: HttpContextContract) {
-    // const data = request.only(['camara', 'autor'])
-    // const camaras = await Camara.query().orderBy('nombre', 'asc')
-    // if (data.camara) {
-    //   camaras.forEach((camara) => {
-    //     camara.selected = (camara.id == data.camara) ? true : false
-    //   })
-    // }
-    // const novedades = await Novedad
-    //   .query()
-    //   .apply((scopes) => { scopes.fromCamara(data.camara) })
-    //   .preload('camara')
-    //   .orderBy('fecha', 'desc')
-    // return view.render('novedad/index', { camaras, novedades })
-    const novedades = await Novedad.query().preload('camara').orderBy('fecha', 'desc')
-    return view.render('novedad/index', { novedades })
+  public async index({ request, view }: HttpContextContract) {
+    const data = request.all()
+    // console.log(data)
+    const camaras = await Camara.query().orderBy('nombre', 'asc')
+    const novedades = await Novedad.query()
+      .apply((scopes) => { scopes.fromCamara(data.camara) })
+      .preload('camara')
+      .orderBy('fecha', 'desc')
+    if (data.camara) {
+      camaras.forEach((camara) => {
+        camara.selected = (camara.id == data.camara) ? true : false
+      })
+    }
+    return view.render('novedad/index', { novedades, camaras })
   }
 
   public async create({ view }: HttpContextContract) {
@@ -73,5 +71,16 @@ export default class NovedadsController {
       session.flash({ success: Message.UPDATED })
     }
     return response.redirect().toRoute('novedad.index')
+  }
+
+  public async configFilter({ }:HttpContextContract){
+    // const data = request.all()
+    // console.log(data)
+    // const camaras = await Camara.query().orderBy('nombre', 'asc')
+    // const novedades = await Novedad.query()
+    //   .apply((scopes) => { scopes.fromCamara(data.camara) })
+    //   .preload('camara')
+    //   .orderBy('fecha', 'desc')
+    // return view.render('novedad/filter', { novedades, camaras })
   }
 }
