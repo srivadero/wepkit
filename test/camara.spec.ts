@@ -38,7 +38,11 @@ test.group('Camara', () => {
   })
 
   test.skip('ensure validator works', async (_assert) =>  { })
-  test.skip('ensure save method works', async (_assert) =>  { })
+
+  test.only('ensure save method works', async (_assert) =>  {
+    await supertest(BASE_URL).put('/camara').send({ nombre: 'TEST_01'}).expect(200)
+  })
+
   test.skip('ensure update method works', async (_assert) =>  { })
   test.skip('ensure delete method works', async (_assert) =>  { })
 })

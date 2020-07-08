@@ -20,7 +20,6 @@ export default class CamarasController {
 
   public async store({ request, response, session }: HttpContextContract) {
     const data = await request.validate(CamaraValidator)
-
     const camara = new Camara
     camara.merge(data)
     await camara.save()
