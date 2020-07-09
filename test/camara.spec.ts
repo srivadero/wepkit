@@ -29,7 +29,7 @@ test.group('Camara', () => {
     assert.equal(title!.textContent!.trim(), 'Edicion de camara')
   })
 
-  test('ensure show page works', async (assert) => {
+  test.skip('ensure show page works', async (assert) => {
     const { text } = await supertest(BASE_URL).get('/camara/1').expect(200)
     const { document } = new JSDOM(text).window
     const title = document.querySelector('h1')

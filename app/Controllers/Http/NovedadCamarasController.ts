@@ -11,6 +11,7 @@ enum Message {
 }
 
 export default class NovedadCamarasController {
+
   public async create({ params, view }: HttpContextContract) {
     const camara = await Camara.find(params.camara_id)
     return view.render('camara/createNovedad', { camara })

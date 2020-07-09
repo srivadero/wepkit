@@ -8,7 +8,6 @@ export default class NovedadEditValidator {
   public schema = schema.create({
     fecha: schema.date({ format: 'd/L/yyyy H:m' }),
     descripcion: schema.string({ escape: true, trim: true }, [rules.maxLength(150)]),
-    // camara: schema.array().members(schema.number())
   })
 
   public cacheKey = this.ctx.routeKey

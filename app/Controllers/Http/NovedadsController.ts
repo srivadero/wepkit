@@ -11,19 +11,14 @@ enum Message {
 }
 
 export default class NovedadsController {
+
   public async index({ request, view }: HttpContextContract) {
     const data = request.all()
-    // console.log(data)
     const camaras = await Camara.query().orderBy('nombre', 'asc')
     const novedades = await Novedad.query()
       .apply((scopes) => { scopes.fromCamara(data.camara) })
       .preload('camara')
       .orderBy('fecha', 'desc')
-    if (data.camara) {
-      camaras.forEach((camara) => {
-        camara.selected = (camara.id == data.camara) ? true : false
-      })
-    }
     return view.render('novedad/index', { novedades, camaras })
   }
 
@@ -33,7 +28,6 @@ export default class NovedadsController {
   }
 
   public async store({ request, response, session }: HttpContextContract) {
-    console.log(request.all())
     const data = await request.validate(NovedadCreateManyValidator)
 
     data.camaras.forEach(async (elem) => {
@@ -49,6 +43,12 @@ export default class NovedadsController {
     session.flash({ success: Message.SAVED })
     return response.redirect().toRoute('novedad.index')
   }
+
+  public async show({ response }: HttpContextContract) {
+    console.log('Novedad.show no implementado')
+    return response.redirect().toRoute('novedad.index')
+  }
+
 
   public async edit({ params, response, session, view }: HttpContextContract) {
     const novedad = await Novedad.find(params.id)
@@ -73,14 +73,9 @@ export default class NovedadsController {
     return response.redirect().toRoute('novedad.index')
   }
 
-  public async configFilter({ }:HttpContextContract){
-    // const data = request.all()
-    // console.log(data)
-    // const camaras = await Camara.query().orderBy('nombre', 'asc')
-    // const novedades = await Novedad.query()
-    //   .apply((scopes) => { scopes.fromCamara(data.camara) })
-    //   .preload('camara')
-    //   .orderBy('fecha', 'desc')
-    // return view.render('novedad/filter', { novedades, camaras })
+  public async destroy({ response }: HttpContextContract) {
+    console.log('Novedad.destroy no implementado')
+    return response.redirect().toRoute('novedad.index')
   }
+
 }

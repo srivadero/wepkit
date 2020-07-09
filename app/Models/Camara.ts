@@ -1,10 +1,5 @@
 import { DateTime } from 'luxon'
-import {
-  BaseModel,
-  column,
-  hasMany,
-  HasMany
-} from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Novedad from './Novedad'
 
 export default class Camara extends BaseModel {
@@ -23,5 +18,4 @@ export default class Camara extends BaseModel {
   @hasMany(() => Novedad)
   public novedades: HasMany<typeof Novedad>
 
-  public selected: boolean = false
 }

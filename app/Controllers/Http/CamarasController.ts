@@ -9,6 +9,7 @@ enum Message {
 }
 
 export default class CamarasController {
+
   public async index({ view }: HttpContextContract) {
     const camaras = await Camara.query().orderBy('nombre', 'asc')
     return view.render('camara/index', { camaras })
@@ -28,13 +29,15 @@ export default class CamarasController {
   }
 
   public async show({ params, session, response, view }: HttpContextContract) {
-    const camara = await Camara.find(params.id)
-    if (!camara) {
-      session.flash({ error: Message.NOT_FOUND })
-      return response.redirect().toRoute('camara.index')
-    }
-    const novedades = await camara.related('novedades').query().orderBy('fecha', 'desc')
-    return view.render('camara/show', { camara, novedades })
+      const camara = await Camara.find(params.id)
+      if (!camara) {
+        session.flash({ error: Message.NOT_FOUND })
+        return response.redirect().toRoute('camara.index')
+      }
+      const novedades = await camara.related('novedades').query().orderBy('fecha', 'desc')
+      return view.render('camara/show', { camara, novedades })
+    // console.log('Camara.show no implementado')
+    // return response.redirect().toRoute('camara.index')
   }
 
   public async edit({ params, response, session, view }: HttpContextContract) {
@@ -61,7 +64,7 @@ export default class CamarasController {
   }
 
   public async destroy({ response }: HttpContextContract) {
-    console.log('Destroy elemente here')
+    console.log('Camara.destroy no implementado')
     return response.redirect().toRoute('camara.index')
   }
 
