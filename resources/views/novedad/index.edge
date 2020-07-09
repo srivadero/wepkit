@@ -18,9 +18,14 @@
 
       <div class="form-group">
         <select class="custom-select custom-select-sm" name="camara">
+          @set('seleccion', request.get('camara'))
+
           <option value="">Cualquier camara</option>
           @each(camara in camaras)
-          <option value="{{ camara.id}}" {{ camara.selected ? 'selected' : ''}} >{{camara.nombre}}</option>
+          {{--  <option value="{{ camara.id}}" {{ camara.selected ? 'selected' : ''}} >{{camara.nombre}}</option>  --}}
+          <option value="{{ camara.id}}" {{ ((''+camara.id) == seleccion.camara) ? ' selected' : ''}} >
+            {{camara.nombre}}
+          </option>
           @endeach
         </select>
       </div>
@@ -29,9 +34,9 @@
     </form>
   </div>
 </div>
-
-
-
+{{--
+{{ inspect(seleccion.camara) }}
+  --}}
 <table class="table">
   <thead>
     <tr>
