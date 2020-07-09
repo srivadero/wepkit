@@ -29,9 +29,17 @@
   <div class="form-group">
     <label>Aplica a</label>
     <fieldset class="form-control" style="height: 150px; overflow: auto">
+      @set('seleccion', flashMessages.get('camaras') || [])
       @each(camara in camaras)
       <div class="custom-control custom-switch _custom-checkbox">
-        <input id="chk_{{camara.id}}" type="checkbox" class="custom-control-input" name="camaras[]" value="{{ camara.id}}">
+        <input
+          id="chk_{{camara.id}}"
+          type="checkbox"
+          class="custom-control-input"
+          name="camaras[]"
+          value="{{ camara.id}}"
+          {{ (seleccion.indexOf(''+camara.id) != -1)? 'checked' : ''}}
+        >
         <label for="chk_{{camara.id}}" class="custom-control-label">{{ camara.nombre }}</label>
       </div>
       @endeach
@@ -43,10 +51,13 @@
     @endif
   </div>
 
-
   <button type="submit" class="btn btn-primary">Guardar</button>
   <a href="{{ route('novedad.index') }}" class="btn btn-link">Cancelar</a>
 </form>
+
+@each(camara in camaras)
+@endeach
+
 @endsection
 
 @section('stylesheets')
