@@ -10,9 +10,23 @@ enum Message {
 
 export default class CamarasController {
 
-  public async index({ view }: HttpContextContract) {
+  public async asTable( ctx: HttpContextContract){
+    console.log('show as Table')
+    ctx.session.put('show_as', 'table')
+    return this.index(ctx)
+    // return response.redirect('back')
+  }
+
+  public async asCards( ctx: HttpContextContract){
+    console.log('show as Cards')
+    ctx.session.put('show_as', 'cards')
+    return this.index(ctx)
+  }
+
+  public async index({ session, view }: HttpContextContract) {
     const camaras = await Camara.query().orderBy('nombre', 'asc')
-    return view.render('camara/index', { camaras })
+    const show_as = session.get('show_as', 'table')
+    return view.render('camara/index', { camaras, show_as })
   }
 
   public async create({ view }: HttpContextContract) {
