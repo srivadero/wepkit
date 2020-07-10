@@ -11,16 +11,15 @@ enum Message {
 export default class CamarasController {
 
   public async asTable( ctx: HttpContextContract){
-    console.log('show as Table')
     ctx.session.put('show_as', 'table')
-    return this.index(ctx)
-    // return response.redirect('back')
+    // return this.index(ctx)
+    return ctx.response.redirect().toRoute('camara.index')
   }
 
   public async asCards( ctx: HttpContextContract){
-    console.log('show as Cards')
     ctx.session.put('show_as', 'cards')
-    return this.index(ctx)
+    // return this.index(ctx)
+    return ctx.response.redirect().toRoute('camara.index')
   }
 
   public async index({ session, view }: HttpContextContract) {

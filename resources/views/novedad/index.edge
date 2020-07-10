@@ -8,37 +8,40 @@
   </div>
 </div>
 
-<div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-    aria-haspopup="true" aria-expanded="false">
-    Filtrar
-  </button>
-  <div class="dropdown-menu">
-    <form class="px-4 py-3" _action="{{ route('novedad.index') }}">
+<div class="border-top border-bottom py-2 mb-3">
+  <div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      Filtrar
+    </button>
+    <div class="dropdown-menu">
+      <form class="px-4 py-3" _action="{{ route('novedad.index') }}">
 
-      <div class="form-group">
-        <select class="custom-select custom-select-sm" name="camara">
-          @set('seleccion', request.get('camara'))
+        <div class="form-group">
+          <select class="custom-select custom-select-sm" name="camara">
+            @set('seleccion', request.get('camara'))
 
-          <option value="">Cualquier camara</option>
-          @each(camara in camaras)
-          {{--  <option value="{{ camara.id}}" {{ camara.selected ? 'selected' : ''}} >{{camara.nombre}}</option>  --}}
-          <option value="{{ camara.id}}" {{ ((''+camara.id) == seleccion.camara) ? ' selected' : ''}} >
-            {{camara.nombre}}
-          </option>
-          @endeach
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary">Aplicar</button>
-      <a class="btn btn-default" href="{{ route('novedad.index') }}">Quitar filtros</a>
-    </form>
+            <option value="">Cualquier camara</option>
+            @each(camara in camaras)
+            {{--  <option value="{{ camara.id}}" {{ camara.selected ? 'selected' : ''}} >{{camara.nombre}}</option>  --}}
+            <option value="{{ camara.id}}" {{ ((''+camara.id) == seleccion.camara) ? ' selected' : ''}} >
+              {{camara.nombre}}
+            </option>
+            @endeach
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Aplicar</button>
+        <a class="btn btn-default" href="{{ route('novedad.index') }}">Quitar filtros</a>
+      </form>
+    </div>
   </div>
+
 </div>
 {{--
 {{ inspect(seleccion.camara) }}
   --}}
-<table class="table">
-  <thead>
+<table class="table table-sm">
+  <thead class="thead-dark">
     <tr>
       <th>Fecha</th>
       <th>Camara</th>
