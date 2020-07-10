@@ -29,12 +29,32 @@ test.group('Camara', () => {
     assert.equal(title!.textContent!.trim(), 'Edicion de camara')
   })
 
-  test.skip('ensure show page works', async (assert) => {
+  test('ensure show page works', async (assert) => {
     const { text } = await supertest(BASE_URL).get('/camara/1').expect(200)
     const { document } = new JSDOM(text).window
     const title = document.querySelector('h1')
     assert.exists(title)
     assert.equal(title!.textContent!.trim(), 'Camara IP 01')
+  })
+
+  test('ensure add novedad works', async (assert) => {
+    const { text } = await supertest(BASE_URL).get('/camara/1/novedad/create').expect(200)
+    const { document } = new JSDOM(text).window
+    const title = document.querySelector('h1')
+    assert.exists(title)
+    assert.equal(title!.textContent!.trim(), 'Novedad')
+  })
+
+  test('ensure edit novedad works', async (assert) => {
+    const { text } = await supertest(BASE_URL).get('/camara/1').expect(200)
+    const { document } = new JSDOM(text).window
+    const title = document.querySelectorAll('table a')
+    assert.exists(title)
+    console.log(title)
+    title.forEach((element) => {
+      console.log(element)
+      assert.equal(element!.textContent!.trim(), 'Novedad')
+    });
   })
 
   test.skip('ensure validator works', async (_assert) =>  { })
