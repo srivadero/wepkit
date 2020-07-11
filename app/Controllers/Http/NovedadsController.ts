@@ -41,7 +41,7 @@ export default class NovedadsController {
         novedad.fecha = data.fecha
         novedad.descripcion = data.descripcion
         novedad.camaraId = elem
-        if(auth.user) novedad.userId = auth.user.id
+        if (auth.user) novedad.userId = auth.user.id
         await novedad.save()
       }
     })
@@ -49,9 +49,18 @@ export default class NovedadsController {
     return response.redirect().toRoute('novedad.index')
   }
 
-  public async show({ response }: HttpContextContract) {
-    console.log('Novedad.show no implementado')
-    return response.redirect().toRoute('novedad.index')
+  public async show({ params, response, session, view }: HttpContextContract) {
+    const novedad = await Novedad
+      .query()
+      .where('id', params.id)
+      .preload('camara')
+      .preload('user')
+      .first()
+    if (!novedad) {
+      session.flash({ error: Message.NOT_FOUND })
+      return response.redirect().toRoute('novedad.index')
+    }
+    return view.render('novedad/show', { novedad })
   }
 
   public async edit({ params, response, session, view }: HttpContextContract) {

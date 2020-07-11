@@ -72,6 +72,7 @@
         <td>{{ (novedad.user)? novedad.user.username :''}}</td>
         <td>{{ novedad.descripcion }}</td>
         <td>
+          <a href="{{ route('novedad.show', { id: novedad.id })}}">Info</a>
           <a href="{{ route('novedad.edit', { id: novedad.id })}}">Editar</a>
         </td>
       </tr>
