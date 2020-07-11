@@ -9,6 +9,7 @@ export default class Novedads extends BaseSchema {
       table.dateTime('fecha').notNullable()
       table.string('descripcion').notNullable()
       table.integer('camara_id').notNullable().references('id').inTable('camaras').onDelete('cascade')
+      table.integer('user_id').nullable().references('id').inTable('users').onDelete('cascade')
       table.timestamps(true)
     })
   }

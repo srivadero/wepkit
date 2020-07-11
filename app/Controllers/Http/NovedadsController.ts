@@ -3,6 +3,7 @@ import Novedad from 'App/Models/Novedad'
 import Camara from 'App/Models/Camara'
 import NovedadEditValidator from 'App/Validators/novedad/EditValidator'
 import NovedadCreateManyValidator from 'App/Validators/novedad/CreateManyValidator'
+import User from 'App/Models/User'
 
 enum Message {
   'NOT_FOUND' = 'Elemento no encontrado',
@@ -15,11 +16,14 @@ export default class NovedadsController {
   public async index({ request, view }: HttpContextContract) {
     const data = request.all()
     const camaras = await Camara.query().orderBy('nombre', 'asc')
+    const usuarios = await User.query().orderBy('username', 'asc')
     const novedades = await Novedad.query()
       .apply((scopes) => { scopes.fromCamara(data.camara) })
+      .apply((scopes) => { scopes.fromUser(data.usuario) })
       .preload('camara')
+      .preload('user')
       .orderBy('fecha', 'desc')
-    return view.render('novedad/index', { novedades, camaras })
+    return view.render('novedad/index', { novedades, camaras, usuarios })
   }
 
   public async create({ view }: HttpContextContract) {
@@ -27,7 +31,7 @@ export default class NovedadsController {
     return view.render('novedad/create', { camaras })
   }
 
-  public async store({ request, response, session }: HttpContextContract) {
+  public async store({ auth, request, response, session }: HttpContextContract) {
     const data = await request.validate(NovedadCreateManyValidator)
 
     data.camaras.forEach(async (elem) => {
@@ -37,6 +41,7 @@ export default class NovedadsController {
         novedad.fecha = data.fecha
         novedad.descripcion = data.descripcion
         novedad.camaraId = elem
+        if(auth.user) novedad.userId = auth.user.id
         await novedad.save()
       }
     })
@@ -49,8 +54,8 @@ export default class NovedadsController {
     return response.redirect().toRoute('novedad.index')
   }
 
-
   public async edit({ params, response, session, view }: HttpContextContract) {
+    console.log('warning: Only author should edit record')
     const novedad = await Novedad.find(params.id)
     if (!novedad) {
       session.flash({ error: Message.NOT_FOUND })
@@ -60,6 +65,7 @@ export default class NovedadsController {
   }
 
   public async update({ params, request, response, session }: HttpContextContract) {
+    console.log('warning: Only author should update record')
     const data = await request.validate(NovedadEditValidator)
     const novedad = await Novedad.find(params.id)
     if (!novedad) {
@@ -75,6 +81,7 @@ export default class NovedadsController {
 
   public async destroy({ response }: HttpContextContract) {
     console.log('Novedad.destroy no implementado')
+    console.log('warning: Only author should delete record')
     return response.redirect().toRoute('novedad.index')
   }
 

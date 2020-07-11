@@ -24,13 +24,26 @@
 
             <option value="">Cualquier camara</option>
             @each(camara in camaras)
-            {{--  <option value="{{ camara.id}}" {{ camara.selected ? 'selected' : ''}} >{{camara.nombre}}</option>  --}}
-            <option value="{{ camara.id}}" {{ ((''+camara.id) == seleccion.camara) ? ' selected' : ''}} >
+              <option value="{{ camara.id}}" {{ ((''+camara.id) == seleccion.camara) ? ' selected' : ''}} >
               {{camara.nombre}}
             </option>
             @endeach
           </select>
         </div>
+
+        <div class="form-group">
+          <select class="custom-select custom-select-sm" name="usuario">
+            @set('seleccion2', request.get('usuario'))
+
+            <option value="">Cualquier usuario</option>
+            @each(usuario in usuarios)
+              <option value="{{ usuario.id}}" {{ ((''+usuario.id) == seleccion2.usuario) ? ' selected' : ''}} >
+              {{usuario.username}}
+            </option>
+            @endeach
+          </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Aplicar</button>
         <a class="btn btn-default" href="{{ route('novedad.index') }}">Quitar filtros</a>
       </form>
@@ -46,6 +59,7 @@
     <tr>
       <th>Fecha</th>
       <th>Camara</th>
+      <th>Autor</th>
       <th>Novedad</th>
       <th>acciones</th>
     </tr>
@@ -55,6 +69,7 @@
       <tr>
         <td>{{ datetime(novedad.fecha) }}</td>
         <td>{{ novedad.camara.nombre }}</td>
+        <td>{{ (novedad.user)? novedad.user.username :''}}</td>
         <td>{{ novedad.descripcion }}</td>
         <td>
           <a href="{{ route('novedad.edit', { id: novedad.id })}}">Editar</a>
