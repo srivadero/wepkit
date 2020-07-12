@@ -10,18 +10,6 @@ enum Message {
 
 export default class CamarasController {
 
-  public async asTable( ctx: HttpContextContract){
-    ctx.session.put('show_as', 'table')
-    // return this.index(ctx)
-    return ctx.response.redirect().toRoute('camara.index')
-  }
-
-  public async asCards( ctx: HttpContextContract){
-    ctx.session.put('show_as', 'cards')
-    // return this.index(ctx)
-    return ctx.response.redirect().toRoute('camara.index')
-  }
-
   public async index({ session, view }: HttpContextContract) {
     const camaras = await Camara.query().orderBy('nombre', 'asc')
     const show_as = session.get('show_as', 'table')
@@ -49,8 +37,6 @@ export default class CamarasController {
       }
       const novedades = await camara.related('novedades').query().orderBy('fecha', 'desc')
       return view.render('camara/show', { camara, novedades })
-    // console.log('Camara.show no implementado')
-    // return response.redirect().toRoute('camara.index')
   }
 
   public async edit({ params, response, session, view }: HttpContextContract) {
@@ -80,5 +66,15 @@ export default class CamarasController {
     console.log('Camara.destroy no implementado')
     return response.redirect().toRoute('camara.index')
   }
+
+  // public async asTable( ctx: HttpContextContract){
+  //   ctx.session.put('show_as', 'table')
+  //   return ctx.response.redirect().toRoute('camara.index')
+  // }
+
+  // public async asCards( ctx: HttpContextContract){
+  //   ctx.session.put('show_as', 'cards')
+  //   return ctx.response.redirect().toRoute('camara.index')
+  // }
 
 }

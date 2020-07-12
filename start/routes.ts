@@ -23,7 +23,7 @@ import './routes/auth'
 
 Route.on('/').render('welcome')
 Route.resource('camara', 'CamarasController')
-Route.resource('camara.novedad', 'NovedadCamarasController')
 Route.resource('novedad', 'NovedadsController')
-Route.get('/camara_table', 'CamarasController.asTable').as('camara.index.table')
-Route.get('/camara_cards', 'CamarasController.asCards').as('camara.index.cards')
+// Route.resource('camara.novedad', 'NovedadCamarasController')
+// Route.get('/camara_table', 'CamarasController.asTable').as('camara.index.table')
+// Route.get('/camara_cards', 'CamarasController.asCards').as('camara.index.cards')
