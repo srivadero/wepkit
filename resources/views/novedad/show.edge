@@ -1,7 +1,7 @@
 @layout('layouts/main')
 
 @section('content')
-<h1>Info</h1>
+<h1>Detalle de Novedad</h1>
 
 <dl>
   <dt>Fecha</dt>
@@ -16,9 +16,9 @@
 
 <a href="{{ route('novedad.index') }}" class="btn btn-primary">Volver</a>
 @if(auth.user)
-  @if(novedad.user && auth.user.id == novedad.user.id)
-  <a href="{{ route('novedad.edit', { id: novedad.id }) }}" class="btn btn-secondary">Editar</a>
-  @endif
+@if(novedad.user && auth.user.id == novedad.user.id)
+<a href="{{ route('novedad.edit', { id: novedad.id }) }}" class="btn btn-secondary">Editar</a>
+@endif
 @endif
 
 @endsection

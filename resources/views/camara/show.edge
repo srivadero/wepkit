@@ -4,9 +4,7 @@
 <div class="d-flex align-items-center justify-content-between mb-4">
   <h1>Camara {{ camara.nombre }}</h1>
   <div>
-    {{--  <a href="{{ route( 'camara.novedad.create', { params: {'camara_id': camara.id}} ) }}"
-      class="btn btn-sm btn-primary">Agregar novedad</a>  --}}
-    <a href="{{ route( 'camara.index' ) }}" class="btn btn-sm btn-secondary">Volver</a>
+    <a href="{{ route( 'camara.index' ) }}" class="btn btn-sm btn-primary">Volver</a>
   </div>
 </div>
 
@@ -15,7 +13,6 @@
     <tr>
       <th>Fecha</th>
       <th>Descripcion</th>
-      <th>acciones</th>
     </tr>
   </thead>
   <tbody>
@@ -23,9 +20,6 @@
     <tr>
       <td>{{ datetime(novedad.fecha) }}</td>
       <td>{{ novedad.descripcion }}</td>
-      <td>
-        {{--  <a href="{{ route('camara.novedad.edit', {'camara_id': camara.id, 'id': novedad.id}) }}">Editar</a>  --}}
-      </td>
     </tr>
     @endeach
   </tbody>

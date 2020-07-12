@@ -1,13 +1,14 @@
 @layout('layouts/main')
 
 @section('content')
-<h1>Novedad</h1>
+<h1>Edicion de Novedad</h1>
 <form action="{{ route('novedad.update', { params: { id: novedad.id }}) }}?_method=PUT" method="POST">
   {{ csrfField() }}
 
   <div class="form-group">
     <label>Fecha</label>
-    <input type="text" class="form-control" name="fecha" value="{{ flashMessages.has('errors.fecha') ? flashMessages.get('fecha') : datetime(novedad.fecha) }}">
+    <input type="text" class="form-control" name="fecha"
+      value="{{ flashMessages.has('errors.fecha') ? flashMessages.get('fecha') : datetime(novedad.fecha) }}">
     @if(flashMessages.has('errors.fecha'))
     <small class="form-text text-muted">
       {{ flashMessages.get('errors.fecha') }}
@@ -17,7 +18,8 @@
 
   <div class="form-group">
     <label>Descripcion</label>
-    <input type="text" class="form-control" name="descripcion" value="{{ flashMessages.has('errors.descripcion') ? flashMessages.get('descripcion') : novedad.descripcion }}">
+    <input type="text" class="form-control" name="descripcion"
+      value="{{ flashMessages.has('errors.descripcion') ? flashMessages.get('descripcion') : novedad.descripcion }}">
     @if(flashMessages.has('errors.descripcion'))
     <small class="form-text text-muted">
       {{ flashMessages.get('errors.descripcion') }}

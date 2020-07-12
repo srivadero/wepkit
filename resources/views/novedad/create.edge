@@ -15,7 +15,6 @@
     @endif
   </div>
 
-
   <div class="form-group">
     <label>Descripcion</label>
     <input type="text" class="form-control" name="descripcion" value="{{ flashMessages.get('descripcion') || '' }}">
@@ -32,14 +31,8 @@
       @set('seleccion', flashMessages.get('camaras') || [])
       @each(camara in camaras)
       <div class="custom-control custom-switch _custom-checkbox">
-        <input
-          id="chk_{{camara.id}}"
-          type="checkbox"
-          class="custom-control-input"
-          name="camaras[]"
-          value="{{ camara.id}}"
-          {{ (seleccion.indexOf(''+camara.id) != -1)? 'checked' : ''}}
-        >
+        <input id="chk_{{camara.id}}" type="checkbox" class="custom-control-input" name="camaras[]"
+          value="{{ camara.id}}" {{ (seleccion.indexOf(''+camara.id) != -1)? 'checked' : ''}}>
         <label for="chk_{{camara.id}}" class="custom-control-label">{{ camara.nombre }}</label>
       </div>
       @endeach
@@ -54,18 +47,5 @@
   <button type="submit" class="btn btn-primary">Guardar</button>
   <a href="{{ route('novedad.index') }}" class="btn btn-link">Cancelar</a>
 </form>
-
-@each(camara in camaras)
-@endeach
-
 @endsection
 
-@section('stylesheets')
-@endsection
-
-@section('javascripts')
-<script>
-  $(document).ready(function(){
-  });
-</script>
-@endsection
