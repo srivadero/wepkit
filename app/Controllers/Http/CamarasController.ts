@@ -67,14 +67,4 @@ export default class CamarasController {
     return response.redirect().toRoute('camara.index')
   }
 
-  // public async asTable( ctx: HttpContextContract){
-  //   ctx.session.put('show_as', 'table')
-  //   return ctx.response.redirect().toRoute('camara.index')
-  // }
-
-  // public async asCards( ctx: HttpContextContract){
-  //   ctx.session.put('show_as', 'cards')
-  //   return ctx.response.redirect().toRoute('camara.index')
-  // }
-
 }

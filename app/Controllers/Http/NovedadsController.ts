@@ -64,7 +64,6 @@ export default class NovedadsController {
   }
 
   public async edit({ params, response, session, view }: HttpContextContract) {
-    console.log('warning: Only author should edit record')
     const novedad = await Novedad.find(params.id)
     if (!novedad) {
       session.flash({ error: Message.NOT_FOUND })
@@ -74,7 +73,6 @@ export default class NovedadsController {
   }
 
   public async update({ params, request, response, session }: HttpContextContract) {
-    console.log('warning: Only author should update record')
     const data = await request.validate(NovedadEditValidator)
     const novedad = await Novedad.find(params.id)
     if (!novedad) {
@@ -90,7 +88,6 @@ export default class NovedadsController {
 
   public async destroy({ response }: HttpContextContract) {
     console.log('Novedad.destroy no implementado')
-    console.log('warning: Only author should delete record')
     return response.redirect().toRoute('novedad.index')
   }
 

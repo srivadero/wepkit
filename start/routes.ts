@@ -23,7 +23,22 @@ import './routes/auth'
 
 Route.on('/').render('welcome')
 Route.resource('camara', 'CamarasController')
+  .middleware({
+    // index: 'auth',
+    create: 'auth',
+    store: 'auth',
+    edit: 'auth',
+    update: 'auth',
+    // show: 'auth',
+    destroy: 'auth',
+  })
 Route.resource('novedad', 'NovedadsController')
-// Route.resource('camara.novedad', 'NovedadCamarasController')
-// Route.get('/camara_table', 'CamarasController.asTable').as('camara.index.table')
-// Route.get('/camara_cards', 'CamarasController.asCards').as('camara.index.cards')
+  .middleware({
+    // index: 'auth',
+    create: 'auth',
+    store: 'auth',
+    edit: ['auth', 'autor'],
+    update: ['auth', 'autor'],
+    // show: 'auth',
+    destroy: ['auth', 'autor'],
+  })
