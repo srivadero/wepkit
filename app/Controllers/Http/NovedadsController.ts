@@ -22,6 +22,7 @@ export default class NovedadsController {
       .apply((scopes) => { scopes.fromUser(data.usuario) })
       .preload('camara')
       .preload('user')
+      .preload('tipo')
       .orderBy('fecha', 'desc')
     return view.render('novedad/index', { novedades, camaras, usuarios })
   }

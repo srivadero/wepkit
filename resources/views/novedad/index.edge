@@ -56,6 +56,7 @@
   <thead class="thead-dark">
     <tr>
       <th>Fecha</th>
+      <th>Tipo</th>
       <th>Camara</th>
       <th>Autor</th>
       <th>Novedad</th>
@@ -66,6 +67,7 @@
     @each(novedad in novedades)
     <tr>
       <td>{{ datetime(novedad.fecha) }}</td>
+      <td>{{ novedad.tipo? novedad.tipo.nombre: '' }}</td>
       <td>{{ novedad.camara.nombre }}</td>
       <td>{{ (novedad.user)? novedad.user.username :''}}</td>
       <td>{{ novedad.descripcion }}</td>

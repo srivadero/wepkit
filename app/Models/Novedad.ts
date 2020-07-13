@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column,belongsTo, BelongsTo, scope } from '@ioc:Adonis/Lucid/Orm'
 import Camara from 'App/Models/Camara'
 import User from 'App/Models/User'
+import Tipo from './Tipo'
 
 export default class Novedad extends BaseModel {
   @column({ isPrimary: true })
@@ -24,6 +25,12 @@ export default class Novedad extends BaseModel {
 
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
+
+  @column()
+  public tipoId: number
+
+  @belongsTo(() => Tipo)
+  public tipo: BelongsTo<typeof Tipo>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
