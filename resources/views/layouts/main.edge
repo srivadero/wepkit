@@ -8,7 +8,7 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">
   @!section('stylesheets')
 
   <title>
@@ -39,6 +39,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user"></i>
             @if(auth.user)
             {{ auth.user.username }}
             @else
@@ -47,13 +48,23 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             @if(auth.user)
-            <a class="dropdown-item" href="{{ route('auth_profile') }}">Perfil</a>
-            <a class="dropdown-item" href="#">Cambiar contraseña</a>
+            <a class="dropdown-item" href="{{ route('auth_profile') }}">
+              <i class="fa fa-vcard"></i>
+              Perfil</a>
+            <a class="dropdown-item" href="#">
+              <i class="fa fa-key"></i>
+              Cambiar contraseña</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ route('auth_logout') }}">Salir</a>
+            <a class="dropdown-item" href="{{ route('auth_logout') }}">
+              <i class="fa fa-sign-out"></i>
+              Salir</a>
             @else
-            <a class="dropdown-item" href="{{ route('auth_login') }}">Acceder</a>
-            <a class="dropdown-item" href="{{ route('auth_register') }}">Crear cuenta</a>
+            <a class="dropdown-item" href="{{ route('auth_login') }}">
+              <i class="fa fa-sign-in"></i>
+              Acceder</a>
+            <a class="dropdown-item" href="{{ route('auth_register') }}">
+              <i class="fa fa-user-plus"></i>
+              Crear cuenta</a>
             @endif
           </div>
         </li>
