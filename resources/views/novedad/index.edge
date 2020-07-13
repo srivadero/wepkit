@@ -7,7 +7,42 @@
     <a class="btn btn-primary btn-sm" href="{{ route('novedad.create')}}" role="button">Agregar novedad</a>
   </div>
 </div>
+{{--
+<div class="border-top border-bottom">
+  <form class="form-inline px-4 py-3" _action="{{ route('novedad.index') }}">
 
+    <div class="form-group mr-2 ">
+      <select class="custom-select custom-select-sm" name="camara">
+        @set('seleccion', request.get('camara'))
+
+        <option value="">Cualquier camara</option>
+        @each(camara in camaras)
+        <option value="{{ camara.id}}" {{ ((''+camara.id) == seleccion.camara) ? ' selected' : ''}}>
+          {{camara.nombre}}
+        </option>
+        @endeach
+      </select>
+    </div>
+
+    <div class="form-group mr-2">
+      <select class="custom-select custom-select-sm" name="usuario">
+        @set('seleccion2', request.get('usuario'))
+
+        <option value="">Cualquier usuario</option>
+        @each(usuario in usuarios)
+        <option value="{{ usuario.id}}" {{ ((''+usuario.id) == seleccion2.usuario) ? ' selected' : ''}}>
+          {{usuario.username}}
+        </option>
+        @endeach
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm ">Aplicar</button>
+    <a class="btn btn-default btn-sm" href="{{ route('novedad.index') }}">Quitar filtros</a>
+  </form>
+
+</div>
+  --}}
 <div class="border-top border-bottom py-2 mb-3">
   <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
@@ -52,6 +87,27 @@
 
 </div>
 
+<ul class="list-group">
+  @each(novedad in novedades)
+    <li class="list-group-item">
+      <div class="d-flex w-100 justify-content-between">
+        <small>{{ datetime(novedad.fecha) }}</small>
+        <small>{{ novedad.user.username }}</small>
+      </div>
+      <h5 class="mb-1">{{ novedad.camara.nombre }}</h5>
+      <p class="mb-1">{{ novedad.descripcion }}</p>
+      <div class="d-flex w-100 justify-content-between">
+        <small>{{ novedad.tipo.nombre }}</small>
+        <span>
+          <a href="{{ route('novedad.show', { id: novedad.id })}}">Info</a>
+          <a href="{{ route('novedad.edit', { id: novedad.id })}}">Editar</a>
+        </span>
+      </div>
+    </li>
+  @endeach
+</ul>
+
+{{--
 <table class="table table-sm">
   <thead class="thead-dark">
     <tr>
@@ -67,16 +123,17 @@
     @each(novedad in novedades)
     <tr>
       <td>{{ datetime(novedad.fecha) }}</td>
-      <td>{{ novedad.tipo? novedad.tipo.nombre: '' }}</td>
-      <td>{{ novedad.camara.nombre }}</td>
-      <td>{{ (novedad.user)? novedad.user.username :''}}</td>
-      <td>{{ novedad.descripcion }}</td>
-      <td>
-        <a href="{{ route('novedad.show', { id: novedad.id })}}">Info</a>
-        <a href="{{ route('novedad.edit', { id: novedad.id })}}">Editar</a>
-      </td>
-    </tr>
-    @endeach
-  </tbody>
+<td>{{ novedad.tipo? novedad.tipo.nombre: '' }}</td>
+<td>{{ novedad.camara.nombre }}</td>
+<td>{{ (novedad.user)? novedad.user.username :''}}</td>
+<td>{{ novedad.descripcion }}</td>
+<td>
+  <a href="{{ route('novedad.show', { id: novedad.id })}}">Info</a>
+  <a href="{{ route('novedad.edit', { id: novedad.id })}}">Editar</a>
+</td>
+</tr>
+@endeach
+</tbody>
 </table>
+--}}
 @endsection

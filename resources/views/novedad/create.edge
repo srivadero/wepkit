@@ -28,8 +28,12 @@
   <div class="form-group">
     <label>Tipo</label>
     <select name="tipo" class="form-control custom-select" >
+      <option value=""></option>
       @each(tipo in tipos)
-        <option value="{{ tipo.id }}">{{ tipo.nombre}}</option>
+      <option value="{{ tipo.id }}"
+        {{ flashMessages.get('tipo') == ''+tipo.id ? 'selected': ''}}>
+        {{ tipo.nombre}}
+      </option>
       @endeach
     </select>
     @if(flashMessages.has('errors.tipo'))
@@ -61,5 +65,6 @@
   <button type="submit" class="btn btn-primary">Guardar</button>
   <a href="{{ route('novedad.index') }}" class="btn btn-link">Cancelar</a>
 </form>
+
 @endsection
 
