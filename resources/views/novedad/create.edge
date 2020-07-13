@@ -26,6 +26,20 @@
   </div>
 
   <div class="form-group">
+    <label>Tipo</label>
+    <select name="tipo" class="form-control custom-select" >
+      @each(tipo in tipos)
+        <option value="{{ tipo.id }}">{{ tipo.nombre}}</option>
+      @endeach
+    </select>
+    @if(flashMessages.has('errors.tipo'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.tipo') }}
+    </small>
+    @endif
+  </div>
+
+  <div class="form-group">
     <label>Aplica a</label>
     <fieldset class="form-control" style="height: 150px; overflow: auto">
       @set('seleccion', flashMessages.get('camaras') || [])

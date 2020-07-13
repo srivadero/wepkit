@@ -4,6 +4,7 @@ import Camara from 'App/Models/Camara'
 import NovedadEditValidator from 'App/Validators/novedad/EditValidator'
 import NovedadCreateManyValidator from 'App/Validators/novedad/CreateManyValidator'
 import User from 'App/Models/User'
+import Tipo from 'App/Models/Tipo'
 
 enum Message {
   'NOT_FOUND' = 'Elemento no encontrado',
@@ -29,7 +30,8 @@ export default class NovedadsController {
 
   public async create({ view }: HttpContextContract) {
     const camaras = await Camara.query().orderBy('nombre', 'asc')
-    return view.render('novedad/create', { camaras })
+    const tipos = await Tipo.query().orderBy('nombre', 'asc')
+    return view.render('novedad/create', { camaras, tipos })
   }
 
   public async store({ auth, request, response, session }: HttpContextContract) {
@@ -42,26 +44,13 @@ export default class NovedadsController {
         novedad.fecha = data.fecha
         novedad.descripcion = data.descripcion
         novedad.camaraId = elem
-        if (auth.user) novedad.userId = auth.user.id
+        novedad.userId = auth.user!.id
+        novedad.tipoId = data.tipo
         await novedad.save()
       }
     })
     session.flash({ success: Message.SAVED })
     return response.redirect().toRoute('novedad.index')
-  }
-
-  public async show({ params, response, session, view }: HttpContextContract) {
-    const novedad = await Novedad
-      .query()
-      .where('id', params.id)
-      .preload('camara')
-      .preload('user')
-      .first()
-    if (!novedad) {
-      session.flash({ error: Message.NOT_FOUND })
-      return response.redirect().toRoute('novedad.index')
-    }
-    return view.render('novedad/show', { novedad })
   }
 
   public async edit({ params, response, session, view }: HttpContextContract) {
@@ -76,15 +65,25 @@ export default class NovedadsController {
   public async update({ params, request, response, session }: HttpContextContract) {
     const data = await request.validate(NovedadEditValidator)
     const novedad = await Novedad.find(params.id)
+    novedad?.merge(data)
+    await novedad?.save()
+    session.flash(novedad ? { success: Message.UPDATED } : { error: Message.NOT_FOUND })
+    return response.redirect().toRoute('novedad.index')
+  }
+
+  public async show({ params, response, session, view }: HttpContextContract) {
+    const novedad = await Novedad
+      .query()
+      .where('id', params.id)
+      .preload('camara')
+      .preload('user')
+      .preload('tipo')
+      .first()
     if (!novedad) {
       session.flash({ error: Message.NOT_FOUND })
+      return response.redirect().toRoute('novedad.index')
     }
-    else {
-      novedad.merge(data)
-      await novedad.save()
-      session.flash({ success: Message.UPDATED })
-    }
-    return response.redirect().toRoute('novedad.index')
+    return view.render('novedad/show', { novedad })
   }
 
   public async destroy({ response }: HttpContextContract) {
