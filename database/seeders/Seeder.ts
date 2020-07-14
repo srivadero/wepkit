@@ -31,15 +31,15 @@ export default class SeederSeeder extends BaseSeeder {
     ])
 
     // Create some camaras
-    for (let index = 1; index <= 5; index++) {
-      const camara = await Camara.create({ nombre: 'IP_0' + index })
+    for (let index = 1; index <= 61; index++) {
+      const camara = await Camara.create({ nombre: 'IP ' + index })
       // Create some novedades
       await camara.related('novedades').createMany([
-        { userId: 1, tipoId: 1, fecha: DateTime.fromJSDate(faker.date.recent(3)), descripcion: faker.lorem.sentence()},
-        { userId: 1, tipoId: 2, fecha: DateTime.fromJSDate(faker.date.recent(3)), descripcion: faker.lorem.sentence()},
-        { userId: 1, tipoId: 1, fecha: DateTime.fromJSDate(faker.date.recent(3)), descripcion: faker.lorem.sentence()},
-        { userId: 2, tipoId: 1, fecha: DateTime.fromJSDate(faker.date.recent(3)), descripcion: faker.lorem.sentence()},
-        { userId: 2, tipoId: 2, fecha: DateTime.fromJSDate(faker.date.recent(3)), descripcion: faker.lorem.sentence()},
+        { userId: 1, tipoId: 1, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
+        { userId: 1, tipoId: 2, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
+        { userId: 1, tipoId: 1, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
+        { userId: 2, tipoId: 1, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
+        { userId: 2, tipoId: 2, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
       ])
     }
   }

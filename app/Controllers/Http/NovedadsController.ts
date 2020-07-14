@@ -27,6 +27,8 @@ export default class NovedadsController {
       .preload('user')
       .preload('tipo')
       .orderBy('fecha', 'desc')
+      // .limit(25)
+      // .offset(20)
     return view.render('novedad/index', { novedades, camaras, usuarios, tipos })
   }
 
