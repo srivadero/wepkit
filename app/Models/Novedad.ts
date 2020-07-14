@@ -46,4 +46,8 @@ export default class Novedad extends BaseModel {
     if (userId) query.andWhere('userId', userId)
   })
 
+  public static fromTipo = scope((query, tipoId: string) => {
+    if (tipoId) query.andWhere('tipoId', tipoId)
+  })
+
 }

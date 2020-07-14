@@ -18,14 +18,16 @@ export default class NovedadsController {
     const data = request.all()
     const camaras = await Camara.query().orderBy('nombre', 'asc')
     const usuarios = await User.query().orderBy('username', 'asc')
+    const tipos = await Tipo.query().orderBy('nombre', 'asc')
     const novedades = await Novedad.query()
       .apply((scopes) => { scopes.fromCamara(data.camara) })
       .apply((scopes) => { scopes.fromUser(data.usuario) })
+      .apply((scopes) => { scopes.fromTipo(data.tipo) })
       .preload('camara')
       .preload('user')
       .preload('tipo')
       .orderBy('fecha', 'desc')
-    return view.render('novedad/index', { novedades, camaras, usuarios })
+    return view.render('novedad/index', { novedades, camaras, usuarios, tipos })
   }
 
   public async create({ view }: HttpContextContract) {
