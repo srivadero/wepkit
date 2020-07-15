@@ -28,43 +28,33 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
+        @if(auth.user)
         <li class="nav-item">
           <a class="nav-link" href="{{ route('novedad.index') }}">Novedades</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('camara.index') }}">Camaras</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('tipo.index') }}">Tipos</a>
+        </li>
+        @endif
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-user"></i>
-            @if(auth.user)
-            {{ auth.user.username }}
-            @else
-            Usuario
-            @endif
+            {{ auth.user ? auth.user.username : 'Usuario'}}
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             @if(auth.user)
-            <a class="dropdown-item" href="{{ route('auth_profile') }}">
-              <i class="fa fa-vcard"></i>
-              Perfil</a>
-            <a class="dropdown-item" href="#">
-              <i class="fa fa-key"></i>
-              Cambiar contraseña</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ route('auth_logout') }}">
-              <i class="fa fa-sign-out"></i>
-              Salir</a>
+            @!component('menuitem', { text: 'Perfil', icon: 'fa fa-vcard', link: route('auth_profile') })
+            @!component('menuitem', { text: 'Cambiar contraseña', icon: 'fa fa-key', link: '' })
+            @!component('menuitem', { text: 'Salir', icon: 'fa fa-sign-out', link: route('auth_logout') })
             @else
-            <a class="dropdown-item" href="{{ route('auth_login') }}">
-              <i class="fa fa-sign-in"></i>
-              Acceder</a>
-            <a class="dropdown-item" href="{{ route('auth_register') }}">
-              <i class="fa fa-user-plus"></i>
-              Crear cuenta</a>
+            @!component('menuitem', { text: 'Acceder', icon: 'fa fa-sign-in', link: route('auth_login') })
+            @!component('menuitem', { text: 'Crear cuenta', icon: 'fa fa-user-plus', link: route('auth_register') })
             @endif
           </div>
         </li>

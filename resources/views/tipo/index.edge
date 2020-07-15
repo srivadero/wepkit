@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="d-flex align-items-center justify-content-between mb-4">
-  <h1>Gestion de camaras</h1>
-  <a href="{{ route('camara.create') }}" class="btn btn-sm btn-primary">Agregar camara</a>
+  <h1>Gestion de tipos</h1>
+  <a href="{{ route('tipo.create') }}" class="btn btn-sm btn-primary">Agregar tipo</a>
 </div>
 
 <table class="table table-sm">
@@ -14,13 +14,13 @@
     </tr>
   </thead>
   <tbody>
-    @each(camara in camaras)
+    @each(tipo in tipos)
     <tr>
       <td>
-        {{ camara.nombre }}
+        {{ tipo.nombre }}
       </td>
       <td>
-        <a class="btn btn-link" href="{{ route('camara.edit', { params: { 'id': camara.id }}) }}">Editar</a>
+        <a class="btn btn-link" href="{{ route('tipo.edit', { params: { 'id': tipo.id }}) }}">Editar</a>
       </td>
     </tr>
     @endeach

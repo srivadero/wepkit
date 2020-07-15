@@ -46,16 +46,6 @@ export default class CamarasController {
     return response.redirect().toRoute('camara.index')
   }
 
-  public async show({ params, session, response, view }: HttpContextContract) {
-    const camara = await Camara.find(params.id)
-    if (!camara) {
-      session.flash({ error: Message.NOT_FOUND })
-      return response.redirect().toRoute('camara.index')
-    }
-    const novedades = await camara.related('novedades').query().orderBy('fecha', 'desc')
-    return view.render('camara/show', { camara, novedades })
-  }
-
   public async destroy({ response }: HttpContextContract) {
     console.log('Camara.destroy no implementado')
     return response.redirect().toRoute('camara.index')

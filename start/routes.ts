@@ -22,23 +22,15 @@ import Route from '@ioc:Adonis/Core/Route'
 import './routes/auth'
 
 Route.on('/').render('welcome')
-Route.resource('camara', 'CamarasController')
-  .middleware({
-    // index: 'auth',
-    create: 'auth',
-    store: 'auth',
-    edit: 'auth',
-    update: 'auth',
-    // show: 'auth',
-    destroy: 'auth',
-  })
+Route.resource('camara', 'CamarasController').middleware({'*': 'auth'})
+Route.resource('tipo', 'TiposController').middleware({'*': 'auth'})
 Route.resource('novedad', 'NovedadsController')
   .middleware({
-    // index: 'auth',
+    index: 'auth',
     create: 'auth',
     store: 'auth',
     edit: ['auth', 'autor'],
     update: ['auth', 'autor'],
-    // show: 'auth',
+    show: 'auth',
     destroy: ['auth', 'autor'],
   })
