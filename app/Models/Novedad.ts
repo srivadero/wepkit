@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column,belongsTo, BelongsTo, scope } from '@ioc:Adonis/Lucid/Orm'
 import Camara from 'App/Models/Camara'
 import User from 'App/Models/User'
-import Tipo from './Tipo'
+import Tipo from 'App/Models/Tipo'
 
 export default class Novedad extends BaseModel {
   @column({ isPrimary: true })
@@ -38,15 +38,15 @@ export default class Novedad extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  public static fromCamara = scope((query, camaraId: string) => {
+  public static whereCamaraIs = scope((query, camaraId: string) => {
     if (camaraId) query.andWhere('camaraId', camaraId)
   })
 
-  public static fromUser = scope((query, userId: string) => {
+  public static whereUserIs = scope((query, userId: string) => {
     if (userId) query.andWhere('userId', userId)
   })
 
-  public static fromTipo = scope((query, tipoId: string) => {
+  public static whereTipoIs = scope((query, tipoId: string) => {
     if (tipoId) query.andWhere('tipoId', tipoId)
   })
 
