@@ -18,6 +18,11 @@ export default class AppProvider {
     View.global('datetime', (valor: DateTime) => {
       return valor.toFormat('dd/LL/yyyy HH:mm')
     })
+    View.global('now', () => {
+      const valor = DateTime.local()
+      // console.log(valor.toFormat('dd/LL/yyyy HH:mm'))
+      return valor.toFormat('dd/LL/yyyy HH:mm')
+    })
   }
 
   public shutdown () {

@@ -7,7 +7,7 @@
 
   <div class="form-group">
     <label>Fecha</label>
-    <input type="text" class="form-control" name="fecha" value="{{ flashMessages.get('fecha') || '' }}">
+    <input type="text" class="form-control" name="fecha" value="{{ flashMessages.get('fecha') || now() }}">
     @if(flashMessages.has('errors.fecha'))
     <small class="form-text text-muted">
       {{ flashMessages.get('errors.fecha') }}
