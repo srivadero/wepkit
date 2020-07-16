@@ -9,6 +9,7 @@ enum Message {
 }
 
 export default class TiposController {
+
   public async index({ view }: HttpContextContract) {
     const tipos = await Tipo.query().orderBy('nombre', 'asc')
     return view.render('tipo/index', { tipos })
@@ -25,9 +26,6 @@ export default class TiposController {
     await tipo.save()
     session.flash({ success: Message.SAVED })
     return response.redirect().toRoute('tipo.index')
-  }
-
-  public async show ({}: HttpContextContract) {
   }
 
   public async edit({ params, response, session, view }: HttpContextContract) {
