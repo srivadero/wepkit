@@ -12,6 +12,8 @@
   <dd>{{ novedad.descripcion }}</dd>
   <dt>Autor</dt>
   <dd>{{ novedad.user ? novedad.user.username : '' }}</dd>
+  <dt>Tipo</dt>
+  <dd>{{ novedad.tipo ? novedad.tipo.nombre : '' }}</dd>
 </dl>
 
 <a href="{{ route('novedad.index') }}" class="btn btn-primary">Volver</a>
