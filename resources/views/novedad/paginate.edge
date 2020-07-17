@@ -1,0 +1,30 @@
+@layout('layouts/main')
+
+@section('content')
+<h1>Paginado</h1>
+
+Total {{ pagination.total }}<br>
+Per page {{ pagination.per_page }}<br>
+Current page {{ pagination.current_page }}<br>
+Last page {{ pagination.last_page }}<br>
+Next page {{ pagination.next_page_url }}<br>
+Prev page {{ pagination.previous_page_url }}<br>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item"><a class="page-link" href="{{ pagination.previous_page_url ? route('novedad.paginate') + pagination.previous_page_url : route('novedad.paginate') }}">Previous</a></li>
+    {{--
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>  --}}
+    <li class="page-item"><a class="page-link" href="{{ pagination.next_page_url ? route('novedad.paginate') + pagination.next_page_url : route('novedad.paginate') }}">Next</a></li>
+  </ul>
+</nav>
+
+
+@each(novedad in novedades)
+<p>
+  {{ datetime(novedad.fecha) }} <b>[{{ novedad.camaraId }}]</b> {{ novedad.descripcion }}
+</p>
+@endeach
+
+@endsection

@@ -14,6 +14,19 @@ enum Message {
 
 export default class NovedadsController {
 
+  public async paginate({ request, view }: HttpContextContract) {
+    const page  = request.get().page || 1
+    console.log(page)
+
+    const pagination = await Novedad.query().paginate(page, 10)
+    const novedades = pagination.all()
+    // console.log(novedades)
+    console.log(pagination.getMeta())
+
+    return view.render('novedad/paginate', { novedades,  pagination: pagination.getMeta() })
+
+  }
+
   public async index({ request, view }: HttpContextContract) {
     const data = request.all()
     const camaras = await Camara.query().orderBy('nombre', 'asc')

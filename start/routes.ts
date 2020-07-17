@@ -34,3 +34,4 @@ Route.resource('novedad', 'NovedadsController')
     show: 'auth',
     destroy: ['auth', 'autor'],
   })
+Route.get('paginate/:id?', 'NovedadsController.paginate').as('novedad.paginate')
