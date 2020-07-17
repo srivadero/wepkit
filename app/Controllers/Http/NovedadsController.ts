@@ -18,7 +18,7 @@ export default class NovedadsController {
     const page  = request.get().page || 1
     console.log(page)
 
-    const pagination = await Novedad.query().paginate(page, 10)
+    const pagination = await Novedad.query().paginate(page, 7)
     const novedades = pagination.all()
     // console.log(novedades)
     console.log(pagination.getMeta())

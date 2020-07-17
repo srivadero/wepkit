@@ -23,6 +23,9 @@ export default class AppProvider {
       // console.log(valor.toFormat('dd/LL/yyyy HH:mm'))
       return valor.toFormat('dd/LL/yyyy HH:mm')
     })
+    View.global('range', (start: number, size: number) => {
+      return [...Array(size).keys()].map(i => i + start)
+    })
   }
 
   public shutdown () {

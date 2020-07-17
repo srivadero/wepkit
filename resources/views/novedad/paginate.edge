@@ -5,21 +5,34 @@
 
 Total {{ pagination.total }}<br>
 Per page {{ pagination.per_page }}<br>
-Current page {{ pagination.current_page }}<br>
-Last page {{ pagination.last_page }}<br>
-Next page {{ pagination.next_page_url }}<br>
+<br>
+First page {{ pagination.first_page }}<br>
 Prev page {{ pagination.previous_page_url }}<br>
+Current page {{ pagination.current_page }}<br>
+Next page {{ pagination.next_page_url }}<br>
+Last page {{ pagination.last_page }}<br>
+<hr>
 
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
-    <li class="page-item"><a class="page-link" href="{{ pagination.previous_page_url ? route('novedad.paginate') + pagination.previous_page_url : route('novedad.paginate') }}">Previous</a></li>
-    {{--
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>  --}}
-    <li class="page-item"><a class="page-link" href="{{ pagination.next_page_url ? route('novedad.paginate') + pagination.next_page_url : route('novedad.paginate') }}">Next</a></li>
+
+    {{--  <li class="page-item">
+      <a class="page-link"
+        href="{{ pagination.current_page == 1 ? '#' : '?page=' + (pagination.current_page - 1) }}">Previous</a>
+    </li>  --}}
+
+    @each(page in range(1, pagination.last_page))
+  <li class="page-item {{ pagination.current_page == page ? 'active' : ''}}">
+      <a class="page-link" href="{{ route('novedad.paginate') }}?page={{ page }}">{{ page }}</a>
+    </li>
+    @endeach
+
+    {{--  <li class="page-item">
+      <a class="page-link"
+        href="{{ pagination.current_page == pagination.last_page ? '#' : ('?page=' + (pagination.current_page + 1)) }}">Next</a>
+    </li>  --}}
   </ul>
 </nav>
-
 
 @each(novedad in novedades)
 <p>

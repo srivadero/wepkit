@@ -31,7 +31,7 @@ export default class SeederSeeder extends BaseSeeder {
     ])
 
     // Create some camaras
-    for (let index = 1; index <= 61; index++) {
+    for (let index = 1; index <= 10; index++) {
       const camara = await Camara.create({ nombre: 'IP ' + index })
       // Create some novedades
       await camara.related('novedades').createMany([
