@@ -27,22 +27,41 @@ export default class NovedadsController {
 
   }
 
-  public async index({ request, view }: HttpContextContract) {
+  public async filter({ session, request, response } : HttpContextContract) {
     const data = request.all()
+    session.put('camara', data.camara)
+    session.put('usuario', data.usuario)
+    session.put('tipo', data.tipo)
+    console.log(session.all())
+    return  response.redirect().toRoute('novedad.index')
+  }
+
+  public async removeFilter( { session, response }: HttpContextContract) {
+    session.put('camara', '')
+    session.put('usuario', '')
+    session.put('tipo', '')
+    return  response.redirect().toRoute('novedad.index')
+  }
+
+  public async index({ session, view }: HttpContextContract) {
+    const { camara, usuario, tipo } = session.all()
+    // const data = request.all()
     const camaras = await Camara.query().orderBy('nombre', 'asc')
     const usuarios = await User.query().orderBy('username', 'asc')
     const tipos = await Tipo.query().orderBy('nombre', 'asc')
     const novedades = await Novedad.query()
-      .apply((scopes) => { scopes.whereCamaraIs(data.camara) })
-      .apply((scopes) => { scopes.whereUserIs(data.usuario) })
-      .apply((scopes) => { scopes.whereTipoIs(data.tipo) })
+      .apply((scopes) => { scopes.whereCamaraIs(camara) })
+      .apply((scopes) => { scopes.whereUserIs(usuario) })
+      .apply((scopes) => { scopes.whereTipoIs(tipo) })
       .preload('camara')
       .preload('user')
       .preload('tipo')
       .orderBy('fecha', 'desc')
       // .limit(25)
       // .offset(20)
-    return view.render('novedad/index', { novedades, camaras, usuarios, tipos })
+    return view.render('novedad/index', { novedades, camaras, usuarios, tipos,
+      camara, usuario, tipo
+    })
   }
 
   public async create({ view }: HttpContextContract) {

@@ -24,14 +24,28 @@ import './routes/auth'
 Route.on('/').render('welcome')
 Route.resource('camara', 'CamarasController').middleware({'*': 'auth'})
 Route.resource('tipo', 'TiposController').middleware({'*': 'auth'})
-Route.resource('novedad', 'NovedadsController')
-  .middleware({
-    index: 'auth',
-    create: 'auth',
-    store: 'auth',
-    edit: ['auth', 'autor'],
-    update: ['auth', 'autor'],
-    show: 'auth',
-    destroy: ['auth', 'autor'],
-  })
+// Route.resource('novedad', 'NovedadsController')
+//   .middleware({
+//     index: 'auth',
+//     create: 'auth',
+//     store: 'auth',
+//     edit: ['auth', 'autor'],
+//     update: ['auth', 'autor'],
+//     show: 'auth',
+//     destroy: ['auth', 'autor'],
+//   })
 Route.get('paginate/:id?', 'NovedadsController.paginate').as('novedad.paginate')
+
+Route.group(() => {
+  Route.get('novedad/', 'NovedadsController.index').as('novedad.index')
+  Route.get('novedad/create', 'NovedadsController.create').as('novedad.create')
+  Route.post('novedad/create', 'NovedadsController.store').as('novedad.store')
+  Route.get('novedad/:id/edit', 'NovedadsController.edit').as('novedad.edit')
+  Route.post('novedad/:id/edit', 'NovedadsController.update').as('novedad.update')
+  Route.get('novedad/:id', 'NovedadsController.show').as('novedad.show')
+
+  Route.post('_novedad/filter', 'NovedadsController.filter').as('novedad.filter')
+  Route.get('_novedad/nofilter', 'NovedadsController.removeFilter').as('novedad.removeFilter')
+
+}).middleware('auth')
+

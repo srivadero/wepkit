@@ -2,7 +2,8 @@
 
 @section('content')
 <h1>Edicion de Novedad</h1>
-<form action="{{ route('novedad.update', { params: { id: novedad.id }}) }}?_method=PUT" method="POST">
+{{--  <form action="{{ route('novedad.update', { params: { id: novedad.id }}) }}?_method=PUT" method="POST">  --}}
+<form action="{{ route('novedad.update', { params: { id: novedad.id }}) }}" method="POST">
   {{ csrfField() }}
 
   <div class="form-group">
