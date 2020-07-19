@@ -34,7 +34,6 @@ Route.resource('tipo', 'TiposController').middleware({'*': 'auth'})
 //     show: 'auth',
 //     destroy: ['auth', 'autor'],
 //   })
-Route.get('paginate/:id?', 'NovedadsController.paginate').as('novedad.paginate')
 
 Route.group(() => {
   Route.get('novedad/', 'NovedadsController.index').as('novedad.index')

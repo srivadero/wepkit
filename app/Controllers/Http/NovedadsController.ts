@@ -14,42 +14,15 @@ enum Message {
 
 export default class NovedadsController {
 
-  public async paginate({ request, view }: HttpContextContract) {
-    const page  = request.get().page || 1
-    console.log(page)
-
-    const pagination = await Novedad.query().paginate(page, 7)
-    const novedades = pagination.all()
-    // console.log(novedades)
-    console.log(pagination.getMeta())
-
-    return view.render('novedad/paginate', { novedades,  pagination: pagination.getMeta() })
-
-  }
-
-  public async filter({ session, request, response } : HttpContextContract) {
-    const data = request.all()
-    session.put('camara', data.camara)
-    session.put('usuario', data.usuario)
-    session.put('tipo', data.tipo)
-    console.log(session.all())
-    return  response.redirect().toRoute('novedad.index')
-  }
-
-  public async removeFilter( { session, response }: HttpContextContract) {
-    session.put('camara', '')
-    session.put('usuario', '')
-    session.put('tipo', '')
-    return  response.redirect().toRoute('novedad.index')
-  }
-
-  public async index({ session, view }: HttpContextContract) {
+  public async index({ request, session, view }: HttpContextContract) {
     const { camara, usuario, tipo } = session.all()
+    const page  = request.get().page || 1
+
     // const data = request.all()
     const camaras = await Camara.query().orderBy('nombre', 'asc')
     const usuarios = await User.query().orderBy('username', 'asc')
     const tipos = await Tipo.query().orderBy('nombre', 'asc')
-    const novedades = await Novedad.query()
+    const pagination = await Novedad.query()
       .apply((scopes) => { scopes.whereCamaraIs(camara) })
       .apply((scopes) => { scopes.whereUserIs(usuario) })
       .apply((scopes) => { scopes.whereTipoIs(tipo) })
@@ -57,10 +30,13 @@ export default class NovedadsController {
       .preload('user')
       .preload('tipo')
       .orderBy('fecha', 'desc')
+      .paginate(page, 10)
       // .limit(25)
       // .offset(20)
-    return view.render('novedad/index', { novedades, camaras, usuarios, tipos,
-      camara, usuario, tipo
+      const novedades = pagination.all()
+
+      return view.render('novedad/index', { novedades, camaras, usuarios, tipos,
+      camara, usuario, tipo, pagination: pagination.getMeta()
     })
   }
 
@@ -125,6 +101,22 @@ export default class NovedadsController {
   public async destroy({ response }: HttpContextContract) {
     console.log('Novedad.destroy no implementado')
     return response.redirect().toRoute('novedad.index')
+  }
+
+  public async filter({ session, request, response } : HttpContextContract) {
+    const data = request.all()
+    session.put('camara', data.camara)
+    session.put('usuario', data.usuario)
+    session.put('tipo', data.tipo)
+    console.log(session.all())
+    return  response.redirect().toRoute('novedad.index')
+  }
+
+  public async removeFilter( { session, response }: HttpContextContract) {
+    session.put('camara', '')
+    session.put('usuario', '')
+    session.put('tipo', '')
+    return  response.redirect().toRoute('novedad.index')
   }
 
 }
