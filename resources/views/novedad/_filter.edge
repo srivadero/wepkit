@@ -17,13 +17,6 @@
               {{camara.nombre}}
             </option>
             @endeach
-            {{--  @set('seleccion', request.get('camara'))
-            <option value="">Cualquier camara</option>
-            @each(camara in camaras)
-            <option value="{{ camara.id}}" {{ ((''+camara.id) == seleccion.camara) ? ' selected' : ''}}>
-              {{camara.nombre}}
-            </option>
-            @endeach  --}}
           </select>
         </div>
 
@@ -36,13 +29,6 @@
               {{usuario.username}}
             </option>
             @endeach
-            {{--  @set('seleccion2', request.get('usuario'))
-            <option value="">Cualquier usuario</option>
-            @each(usuario in usuarios)
-            <option value="{{ usuario.id}}" {{ ((''+usuario.id) == seleccion2.usuario) ? ' selected' : ''}}>
-              {{usuario.username}}
-            </option>
-            @endeach  --}}
           </select>
         </div>
 
@@ -55,13 +41,6 @@
               {{tipo.nombre}}
             </option>
             @endeach
-            {{--  @set('seleccion3', request.get('tipo'))
-            <option value="">Cualquier tipo</option>
-            @each(tipo in tipos)
-            <option value="{{ tipo.id}}" {{ ((''+tipo.id) == seleccion3.tipo) ? ' selected' : ''}}>
-              {{tipo.nombre}}
-            </option>
-            @endeach  --}}
           </select>
         </div>
 
@@ -70,5 +49,17 @@
       </form>
     </div>
   </div>
+
+  @if(camara)
+  <span class="badge badge-secondary">Filtrado por Camara</span>
+  @endif
+
+  @if(usuario)
+  <span class="badge badge-secondary">Filtrado por Usuario</span>
+  @endif
+
+  @if(tipo)
+  <span class="badge badge-secondary">Filtrado por Tipo</span>
+  @endif
 
 </div>

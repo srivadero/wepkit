@@ -31,8 +31,6 @@ export default class NovedadsController {
       .preload('tipo')
       .orderBy('fecha', 'desc')
       .paginate(page, 10)
-      // .limit(25)
-      // .offset(20)
       const novedades = pagination.all()
 
       return view.render('novedad/index', { novedades, camaras, usuarios, tipos,
@@ -56,7 +54,7 @@ export default class NovedadsController {
         novedad.fecha = data.fecha
         novedad.descripcion = data.descripcion
         novedad.camaraId = elem
-        novedad.userId = auth.user!.id
+        if(auth.user) novedad.userId = auth.user!.id
         novedad.tipoId = data.tipo
         await novedad.save()
       }
@@ -108,7 +106,6 @@ export default class NovedadsController {
     session.put('camara', data.camara)
     session.put('usuario', data.usuario)
     session.put('tipo', data.tipo)
-    console.log(session.all())
     return  response.redirect().toRoute('novedad.index')
   }
 
