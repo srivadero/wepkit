@@ -6,56 +6,67 @@
   <a class="btn btn-primary btn-sm" href="{{ route('novedad.create')}}" role="button">Agregar novedad</a>
 </div>
 
-<form class="px-4 py-3" action="{{ route('novedad.index') }}" _method="GET">
-  {{--  {{ csrfField() }}  --}}
-  <div class="form-group">
-    <select class="custom-select custom-select-sm" name="camara">
-      @set('seleccion', camara)
-      <option value="">Cualquier camara</option>
-      @each(camara in camaras)
-      <option value="{{ camara.id}}" {{ ((''+camara.id) == seleccion) ? ' selected' : ''}}>
-        {{camara.nombre}}
-      </option>
-      @endeach
-    </select>
-  </div>
+<div class="border-top border-bottom py-2 mb-3">
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      <i class="fa fa-filter"></i>
+      Filtrar
+    </button>
+    <div class="dropdown-menu">
+      <form class="px-4 py-3" action="{{ route('novedad.index') }}" _method="GET">
+        {{--  {{ csrfField() }} --}}
+        <div class="form-group">
+          <select class="custom-select custom-select-sm" name="camara">
+            @set('seleccion', camara)
+            <option value="">Cualquier camara</option>
+            @each(camara in camaras)
+            <option value="{{ camara.id}}" {{ ((''+camara.id) == seleccion) ? ' selected' : ''}}>
+              {{camara.nombre}}
+            </option>
+            @endeach
+          </select>
+        </div>
 
-  <div class="form-group">
-    <select class="custom-select custom-select-sm" name="usuario">
-      @set('seleccion2', usuario)
-      <option value="">Cualquier usuario</option>
-      @each(usuario in usuarios)
-      <option value="{{ usuario.id}}" {{ ((''+usuario.id) == seleccion2) ? ' selected' : ''}}>
-        {{usuario.username}}
-      </option>
-      @endeach
-    </select>
-  </div>
+        <div class="form-group">
+          <select class="custom-select custom-select-sm" name="usuario">
+            @set('seleccion2', usuario)
+            <option value="">Cualquier usuario</option>
+            @each(usuario in usuarios)
+            <option value="{{ usuario.id}}" {{ ((''+usuario.id) == seleccion2) ? ' selected' : ''}}>
+              {{usuario.username}}
+            </option>
+            @endeach
+          </select>
+        </div>
 
-  <div class="form-group">
-    <select class="custom-select custom-select-sm" name="tipo">
-      @set('seleccion3', tipo)
-      <option value="">Cualquier tipo</option>
-      @each(tipo in tipos)
-      <option value="{{ tipo.id}}" {{ ((''+tipo.id) == seleccion3) ? ' selected' : ''}}>
-        {{tipo.nombre}}
-      </option>
-      @endeach
-    </select>
-  </div>
+        <div class="form-group">
+          <select class="custom-select custom-select-sm" name="tipo">
+            @set('seleccion3', tipo)
+            <option value="">Cualquier tipo</option>
+            @each(tipo in tipos)
+            <option value="{{ tipo.id}}" {{ ((''+tipo.id) == seleccion3) ? ' selected' : ''}}>
+              {{tipo.nombre}}
+            </option>
+            @endeach
+          </select>
+        </div>
 
-  <button type="submit" class="btn btn-primary">Aplicar</button>
-  <a class="btn btn-default" href="{{ route('novedad.index') }}">Quitar filtros</a>
-</form>
+        <button type="submit" class="btn btn-primary">Aplicar</button>
+        <a class="btn btn-default" href="{{ route('novedad.index') }}">Quitar filtros</a>
+      </form>
+    </div>
+  </div>
+</div>
 
 <table class="table table-hover table-striped table-sm">
   <tbody>
     @each(novedad in novedades)
     <tr>
       <td>{{ novedad.id }}</td>
-      {{--  <td>{{ datetime(novedad.fecha) }}</td>  --}}
+      {{--  <td>{{ datetime(novedad.fecha) }}</td> --}}
       <td>{{ novedad.camara.nombre }}</td>
-      {{--  <td>{{ novedad.descripcion }}</td>  --}}
+      {{--  <td>{{ novedad.descripcion }}</td> --}}
       <td>{{ (novedad.user)? novedad.user.username :''}}</td>
       <td>{{ novedad.tipo? novedad.tipo.nombre: '' }}</td>
       <td>
@@ -67,35 +78,37 @@
   </tbody>
 </table>
 
-@set('filter', '')
-@if(camara)
+<div class="d-none">
+  @set('filter', '')
+  @if(camara)
   {{ filter = filter + 'camara='+camara+'&'}}
-@endif
-@if(usuario)
+  @endif
+  @if(usuario)
   {{ filter = filter + 'usuario='+usuario+'&'}}
-@endif
-@if(tipo)
+  @endif
+  @if(tipo)
   {{ filter = filter + 'tipo='+tipo+'&'}}
-@endif
+  @endif
+</div>
 
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
 
     @if(pagination.current_page !=pagination.first_page)
     <li class="page-item">
-    <a class="page-link" href="?{{ filter }}page={{pagination.current_page - 1}}">Prev</a>
+      <a class="page-link" href="?{{ filter }}page={{pagination.current_page - 1}}">Prev</a>
     </li>
     @endif
 
     @each(page in range(1, pagination.last_page))
     <li class="page-item {{ pagination.current_page == page ? 'active' : ''}}">
-    <a class="page-link" href="{{ route('novedad.index') }}?{{ filter }}page={{ page }}">{{ page }}</a>
+      <a class="page-link" href="{{ route('novedad.index') }}?{{ filter }}page={{ page }}">{{ page }}</a>
     </li>
     @endeach
 
     @if(pagination.current_page !=pagination.last_page)
     <li class="page-item">
-    <a class="page-link" href="?{{ filter }}page={{pagination.current_page + 1}}">Next</a>
+      <a class="page-link" href="?{{ filter }}page={{pagination.current_page + 1}}">Next</a>
     </li>
     @endif
 

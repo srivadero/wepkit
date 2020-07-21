@@ -15,10 +15,13 @@ enum Message {
 export default class NovedadsController {
 
   public async index({ request, view }: HttpContextContract) {
+    // Get query parameters
     const camara = request.get().camara
     const usuario = request.get().usuario
     const tipo = request.get().tipo
     const page  = request.get().page || 1
+
+    // Query database
     const pagination = await Novedad.query()
       .apply((scopes) => { scopes.whereCamaraIs(camara) })
       .apply((scopes) => { scopes.whereUserIs(usuario) })
@@ -27,11 +30,14 @@ export default class NovedadsController {
       .preload('user')
       .preload('tipo')
       .orderBy('id', 'asc')
-      .paginate(page, 7)
+      .paginate(page, 20)
+
+      // Fetch data
       const novedades = pagination.all()
       const camaras = await Camara.query().orderBy('nombre', 'asc')
       const usuarios = await User.query().orderBy('username', 'asc')
       const tipos = await Tipo.query().orderBy('nombre', 'asc')
+
       return view.render('novedad/index', { novedades, camaras, usuarios, tipos, pagination: pagination.getMeta(), camara, usuario, tipo })
   }
 
