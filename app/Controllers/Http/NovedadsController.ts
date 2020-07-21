@@ -14,6 +14,28 @@ enum Message {
 
 export default class NovedadsController {
 
+  public async newindex({ request, session, view }: HttpContextContract) {
+    console.log(request.parsedUrl)
+    const camara = request.get().camara
+    const usuario = request.get().usuario
+    const tipo = request.get().tipo
+    const page  = request.get().page || 1
+    const pagination = await Novedad.query()
+      .apply((scopes) => { scopes.whereCamaraIs(camara) })
+      .apply((scopes) => { scopes.whereUserIs(usuario) })
+      .apply((scopes) => { scopes.whereTipoIs(tipo) })
+      .preload('camara')
+      .preload('user')
+      .preload('tipo')
+      .orderBy('id', 'asc')
+      .paginate(page, 10)
+      const novedades = pagination.all()
+      const camaras = await Camara.query().orderBy('nombre', 'asc')
+      const usuarios = await User.query().orderBy('username', 'asc')
+      const tipos = await Tipo.query().orderBy('nombre', 'asc')
+      return view.render('novedad/newindex', { novedades, camaras, usuarios, tipos, pagination: pagination.getMeta(), camara, usuario, tipo })
+  }
+
   public async index({ request, session, view }: HttpContextContract) {
     const { camara, usuario, tipo } = session.all()
     const page  = request.get().page || 1

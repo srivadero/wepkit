@@ -25,7 +25,7 @@ Route.on('/').render('welcome')
 Route.resource('camara', 'CamarasController')//.middleware({'*': 'auth'})
 Route.resource('tipo', 'TiposController')//.middleware({'*': 'auth'})
 Route.group(() => {
-  Route.get('novedad/', 'NovedadsController.index').as('novedad.index')
+  Route.get('novedad/', 'NovedadsController.index')//.as('novedad.index')
   Route.get('novedad/create', 'NovedadsController.create').as('novedad.create')
   Route.post('novedad/create', 'NovedadsController.store').as('novedad.store')
   Route.get('novedad/:id/edit', 'NovedadsController.edit').as('novedad.edit')
@@ -35,3 +35,4 @@ Route.group(() => {
   Route.get('_novedad/nofilter', 'NovedadsController.removeFilter').as('novedad.removeFilter')
 })//.middleware('auth')
 
+Route.get('test', 'NovedadsController.newindex').as('novedad.index')
