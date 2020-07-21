@@ -40,6 +40,11 @@ export default class SeederSeeder extends BaseSeeder {
         { userId: 1, tipoId: 1, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
         { userId: 2, tipoId: 1, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
         { userId: 2, tipoId: 2, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
+        { userId: 1, tipoId: 1, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
+        { userId: 1, tipoId: 2, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
+        { userId: 1, tipoId: 1, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
+        { userId: 2, tipoId: 1, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
+        { userId: 2, tipoId: 2, fecha: DateTime.fromJSDate(faker.date.recent(30)), descripcion: faker.lorem.sentence()},
       ])
     }
   }

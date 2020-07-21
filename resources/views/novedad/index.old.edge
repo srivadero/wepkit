@@ -1,0 +1,36 @@
+@layout('layouts/main')
+
+@section('content')
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <h1>Novedades</h1>
+  <a class="btn btn-primary btn-sm" href="{{ route('novedad.create')}}" role="button">Agregar novedad</a>
+</div>
+
+@include('novedad/_filter')
+
+<table class="table table-hover table-striped table-sm">
+  <tbody>
+    @each(novedad in novedades)
+    <tr>
+      <td>
+        {{ datetime(novedad.fecha) }}<br>
+        <h5>{{ novedad.camara.nombre }}</h5>
+      </td>
+      <td>
+        <small class="text-muted">{{ (novedad.user)? novedad.user.username :''}}</small>
+        <br>
+        <h5>{{ novedad.descripcion }}</h5>
+        <br>
+        <small>{{ novedad.tipo? novedad.tipo.nombre: '' }}</small>
+      </td>
+      <td>
+        <a href="{{ route('novedad.show', { id: novedad.id })}}">Info</a>
+        <a href="{{ route('novedad.edit', { id: novedad.id })}}">Editar</a>
+      </td>
+    </tr>
+    @endeach
+  </tbody>
+</table>
+
+@include('novedad/_paginator')
+@endsection

@@ -14,8 +14,7 @@ enum Message {
 
 export default class NovedadsController {
 
-  public async newindex({ request, session, view }: HttpContextContract) {
-    console.log(request.parsedUrl)
+  public async index({ request, view }: HttpContextContract) {
     const camara = request.get().camara
     const usuario = request.get().usuario
     const tipo = request.get().tipo
@@ -28,36 +27,12 @@ export default class NovedadsController {
       .preload('user')
       .preload('tipo')
       .orderBy('id', 'asc')
-      .paginate(page, 10)
+      .paginate(page, 7)
       const novedades = pagination.all()
       const camaras = await Camara.query().orderBy('nombre', 'asc')
       const usuarios = await User.query().orderBy('username', 'asc')
       const tipos = await Tipo.query().orderBy('nombre', 'asc')
-      return view.render('novedad/newindex', { novedades, camaras, usuarios, tipos, pagination: pagination.getMeta(), camara, usuario, tipo })
-  }
-
-  public async index({ request, session, view }: HttpContextContract) {
-    const { camara, usuario, tipo } = session.all()
-    const page  = request.get().page || 1
-
-    // const data = request.all()
-    const camaras = await Camara.query().orderBy('nombre', 'asc')
-    const usuarios = await User.query().orderBy('username', 'asc')
-    const tipos = await Tipo.query().orderBy('nombre', 'asc')
-    const pagination = await Novedad.query()
-      .apply((scopes) => { scopes.whereCamaraIs(camara) })
-      .apply((scopes) => { scopes.whereUserIs(usuario) })
-      .apply((scopes) => { scopes.whereTipoIs(tipo) })
-      .preload('camara')
-      .preload('user')
-      .preload('tipo')
-      .orderBy('fecha', 'desc')
-      .paginate(page, 10)
-      const novedades = pagination.all()
-
-      return view.render('novedad/index', { novedades, camaras, usuarios, tipos,
-      camara, usuario, tipo, pagination: pagination.getMeta()
-    })
+      return view.render('novedad/index', { novedades, camaras, usuarios, tipos, pagination: pagination.getMeta(), camara, usuario, tipo })
   }
 
   public async create({ view }: HttpContextContract) {
@@ -123,19 +98,43 @@ export default class NovedadsController {
     return response.redirect().toRoute('novedad.index')
   }
 
-  public async filter({ session, request, response } : HttpContextContract) {
-    const data = request.all()
-    session.put('camara', data.camara)
-    session.put('usuario', data.usuario)
-    session.put('tipo', data.tipo)
-    return  response.redirect().toRoute('novedad.index')
-  }
+  // public async index({ request, session, view }: HttpContextContract) {
+  //   const { camara, usuario, tipo } = session.all()
+  //   const page  = request.get().page || 1
 
-  public async removeFilter( { session, response }: HttpContextContract) {
-    session.put('camara', '')
-    session.put('usuario', '')
-    session.put('tipo', '')
-    return  response.redirect().toRoute('novedad.index')
-  }
+  //   // const data = request.all()
+  //   const camaras = await Camara.query().orderBy('nombre', 'asc')
+  //   const usuarios = await User.query().orderBy('username', 'asc')
+  //   const tipos = await Tipo.query().orderBy('nombre', 'asc')
+  //   const pagination = await Novedad.query()
+  //     .apply((scopes) => { scopes.whereCamaraIs(camara) })
+  //     .apply((scopes) => { scopes.whereUserIs(usuario) })
+  //     .apply((scopes) => { scopes.whereTipoIs(tipo) })
+  //     .preload('camara')
+  //     .preload('user')
+  //     .preload('tipo')
+  //     .orderBy('fecha', 'desc')
+  //     .paginate(page, 10)
+  //     const novedades = pagination.all()
+
+  //     return view.render('novedad/index', { novedades, camaras, usuarios, tipos,
+  //     camara, usuario, tipo, pagination: pagination.getMeta()
+  //   })
+  // }
+
+  // public async filter({ session, request, response } : HttpContextContract) {
+  //   const data = request.all()
+  //   session.put('camara', data.camara)
+  //   session.put('usuario', data.usuario)
+  //   session.put('tipo', data.tipo)
+  //   return  response.redirect().toRoute('novedad.index')
+  // }
+
+  // public async removeFilter( { session, response }: HttpContextContract) {
+  //   session.put('camara', '')
+  //   session.put('usuario', '')
+  //   session.put('tipo', '')
+  //   return  response.redirect().toRoute('novedad.index')
+  // }
 
 }
