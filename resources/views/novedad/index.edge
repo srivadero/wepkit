@@ -18,11 +18,9 @@
         {{--  {{ csrfField() }} --}}
         <div class="form-group">
           <select class="custom-select custom-select-sm" name="camara">
-            @set('seleccion', camara)
             <option value="">Cualquier camara</option>
-            @each(camara in camaras)
-            <option value="{{ camara.id}}" {{ ((''+camara.id) == seleccion) ? ' selected' : ''}}>
-              {{camara.nombre}}
+            @each(camara in filter.camaras)
+            <option value="{{ camara.id}}" {{ camara.id == filter.camara ? 'selected' : ''}}> {{camara.nombre}}
             </option>
             @endeach
           </select>
@@ -30,11 +28,9 @@
 
         <div class="form-group">
           <select class="custom-select custom-select-sm" name="usuario">
-            @set('seleccion2', usuario)
             <option value="">Cualquier usuario</option>
-            @each(usuario in usuarios)
-            <option value="{{ usuario.id}}" {{ ((''+usuario.id) == seleccion2) ? ' selected' : ''}}>
-              {{usuario.username}}
+            @each(usuario in filter.usuarios)
+            <option value="{{ usuario.id}}" {{ usuario.id == filter.usuario ? 'selected' : ''}}> {{usuario.username}}
             </option>
             @endeach
           </select>
@@ -42,11 +38,9 @@
 
         <div class="form-group">
           <select class="custom-select custom-select-sm" name="tipo">
-            @set('seleccion3', tipo)
             <option value="">Cualquier tipo</option>
-            @each(tipo in tipos)
-            <option value="{{ tipo.id}}" {{ ((''+tipo.id) == seleccion3) ? ' selected' : ''}}>
-              {{tipo.nombre}}
+            @each(tipo in filter.tipos)
+            <option value="{{ tipo.id}}" {{ tipo.id == filter.tipo ? 'selected' : ''}}> {{tipo.nombre}}
             </option>
             @endeach
           </select>
@@ -63,12 +57,17 @@
   <tbody>
     @each(novedad in novedades)
     <tr>
-      <td>{{ novedad.id }}</td>
-      {{--  <td>{{ datetime(novedad.fecha) }}</td> --}}
-      <td>{{ novedad.camara.nombre }}</td>
-      {{--  <td>{{ novedad.descripcion }}</td> --}}
-      <td>{{ (novedad.user)? novedad.user.username :''}}</td>
-      <td>{{ novedad.tipo? novedad.tipo.nombre: '' }}</td>
+      <td>
+        {{ datetime(novedad.fecha) }}<br>
+        <h5>{{ novedad.camara.nombre }}</h5>
+      </td>
+      <td>
+        <small class="text-muted">{{ (novedad.user)? novedad.user.username :''}}</small>
+        <br>
+        <h5>{{ novedad.descripcion }}</h5>
+        <br>
+        <small>{{ novedad.tipo? novedad.tipo.nombre: '' }}</small>
+      </td>
       <td>
         <a href="{{ route('novedad.show', { id: novedad.id })}}">Info</a>
         <a href="{{ route('novedad.edit', { id: novedad.id })}}">Editar</a>

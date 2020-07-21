@@ -12,33 +12,44 @@ enum Message {
   'UPDATED' = 'Elemento guardado',
 }
 
+type orderType = {
+  field: string,
+  direction: 'asc' | 'desc' | undefined
+}
+
 export default class NovedadsController {
 
   public async index({ request, view }: HttpContextContract) {
-    // Get query parameters
-    const camara = request.get().camara
-    const usuario = request.get().usuario
-    const tipo = request.get().tipo
-    const page  = request.get().page || 1
+    // Get filter, order and page parameters
+    const filter = {
+      camaras: await Camara.query().orderBy('nombre', 'asc'),
+      usuarios: await User.query().orderBy('username', 'asc'),
+      tipos: await Tipo.query().orderBy('nombre', 'asc'),
+      camara: request.get().camara,
+      usuario: request.get().usuario,
+      tipo: request.get().tipo,
+    }
+
+    const order: orderType = {
+      field: 'fecha',
+      direction: 'desc'
+    }
+
+    const page = request.get().page || 1
 
     // Query database
     const pagination = await Novedad.query()
-      .apply((scopes) => { scopes.whereCamaraIs(camara) })
-      .apply((scopes) => { scopes.whereUserIs(usuario) })
-      .apply((scopes) => { scopes.whereTipoIs(tipo) })
+      .apply((scopes) => { scopes.whereCamaraIs(filter.camara) })
+      .apply((scopes) => { scopes.whereUserIs(filter.usuario) })
+      .apply((scopes) => { scopes.whereTipoIs(filter.tipo) })
       .preload('camara')
       .preload('user')
       .preload('tipo')
-      .orderBy('id', 'asc')
+      .orderBy(order.field, order.direction)
       .paginate(page, 20)
+    const novedades = pagination.all()
 
-      // Fetch data
-      const novedades = pagination.all()
-      const camaras = await Camara.query().orderBy('nombre', 'asc')
-      const usuarios = await User.query().orderBy('username', 'asc')
-      const tipos = await Tipo.query().orderBy('nombre', 'asc')
-
-      return view.render('novedad/index', { novedades, camaras, usuarios, tipos, pagination: pagination.getMeta(), camara, usuario, tipo })
+    return view.render('novedad/index', { novedades, filter, pagination: pagination.getMeta() })
   }
 
   public async create({ view }: HttpContextContract) {
@@ -57,7 +68,7 @@ export default class NovedadsController {
         novedad.fecha = data.fecha
         novedad.descripcion = data.descripcion
         novedad.camaraId = elem
-        if(auth.user) novedad.userId = auth.user!.id
+        if (auth.user) novedad.userId = auth.user!.id
         novedad.tipoId = data.tipo
         await novedad.save()
       }
@@ -103,44 +114,5 @@ export default class NovedadsController {
     console.log('Novedad.destroy no implementado')
     return response.redirect().toRoute('novedad.index')
   }
-
-  // public async index({ request, session, view }: HttpContextContract) {
-  //   const { camara, usuario, tipo } = session.all()
-  //   const page  = request.get().page || 1
-
-  //   // const data = request.all()
-  //   const camaras = await Camara.query().orderBy('nombre', 'asc')
-  //   const usuarios = await User.query().orderBy('username', 'asc')
-  //   const tipos = await Tipo.query().orderBy('nombre', 'asc')
-  //   const pagination = await Novedad.query()
-  //     .apply((scopes) => { scopes.whereCamaraIs(camara) })
-  //     .apply((scopes) => { scopes.whereUserIs(usuario) })
-  //     .apply((scopes) => { scopes.whereTipoIs(tipo) })
-  //     .preload('camara')
-  //     .preload('user')
-  //     .preload('tipo')
-  //     .orderBy('fecha', 'desc')
-  //     .paginate(page, 10)
-  //     const novedades = pagination.all()
-
-  //     return view.render('novedad/index', { novedades, camaras, usuarios, tipos,
-  //     camara, usuario, tipo, pagination: pagination.getMeta()
-  //   })
-  // }
-
-  // public async filter({ session, request, response } : HttpContextContract) {
-  //   const data = request.all()
-  //   session.put('camara', data.camara)
-  //   session.put('usuario', data.usuario)
-  //   session.put('tipo', data.tipo)
-  //   return  response.redirect().toRoute('novedad.index')
-  // }
-
-  // public async removeFilter( { session, response }: HttpContextContract) {
-  //   session.put('camara', '')
-  //   session.put('usuario', '')
-  //   session.put('tipo', '')
-  //   return  response.redirect().toRoute('novedad.index')
-  // }
 
 }
