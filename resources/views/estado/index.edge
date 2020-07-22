@@ -1,0 +1,29 @@
+@layout('layouts/main')
+
+@section('content')
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <h1>Gestion de estados</h1>
+  <a href="{{ route('estado.create') }}" class="btn btn-sm btn-primary">Agregar estado</a>
+</div>
+
+<table class="table table-sm">
+  <thead class="thead-dark">
+    <tr>
+      <th>Nombre</th>
+      <th>acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    @each(estado in estados)
+    <tr>
+      <td>
+        {{ estado.nombre }}
+      </td>
+      <td>
+        <a class="btn btn-link" href="{{ route('estado.edit', { params: { 'id': estado.id }}) }}">Editar</a>
+      </td>
+    </tr>
+    @endeach
+  </tbody>
+</table>
+@endsection

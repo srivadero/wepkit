@@ -24,6 +24,7 @@ import './routes/auth'
 Route.on('/').render('welcome')
 Route.resource('camara', 'CamarasController')//.middleware({'*': 'auth'})
 Route.resource('tipo', 'TiposController')//.middleware({'*': 'auth'})
+Route.resource('estado', 'EstadosController')//.middleware({'*': 'auth'})
 Route.group(() => {
   Route.get('novedad/', 'NovedadsController.index').as('novedad.index')
   Route.get('novedad/create', 'NovedadsController.create').as('novedad.create')

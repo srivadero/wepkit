@@ -1,0 +1,13 @@
+@layout('layouts/main')
+
+@section('content')
+<h1>Nuevo estado</h1>
+<form action="{{ route('estado.store') }}" method="POST">
+  {{ csrfField() }}
+
+  @include('estado/_form')
+
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="{{ route('estado.index') }}" class="btn btn-link">Cancelar</a>
+</form>
+@endsection

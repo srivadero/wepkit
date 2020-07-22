@@ -1,0 +1,14 @@
+@layout('layouts/main')
+
+@section('content')
+<h1>Edicion de estado</h1>
+<form action="{{ route('estado.update', {'id': estado.id}) }}?_method=PUT" method="POST">
+  {{ csrfField() }}
+
+  @include('estado/_form')
+
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="{{ route('estado.index') }}" class="btn btn-link">Cancelar</a>
+</form>
+
+@endsection
