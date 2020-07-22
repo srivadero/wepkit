@@ -3,6 +3,7 @@ import { BaseModel, column,belongsTo, BelongsTo, scope } from '@ioc:Adonis/Lucid
 import Camara from 'App/Models/Camara'
 import User from 'App/Models/User'
 import Tipo from 'App/Models/Tipo'
+import Estado from './Estado'
 
 export default class Novedad extends BaseModel {
   @column({ isPrimary: true })
@@ -13,6 +14,15 @@ export default class Novedad extends BaseModel {
 
   @column()
   public descripcion: string
+
+  @column()
+  public isopen: boolean = true
+
+  @column()
+  public estadoId: number
+
+  @belongsTo(() => Estado)
+  public estado: BelongsTo<typeof Estado>
 
   @column()
   public camaraId: number
@@ -48,6 +58,10 @@ export default class Novedad extends BaseModel {
 
   public static whereTipoIs = scope((query, tipoId: string) => {
     if (tipoId) query.andWhere('tipoId', tipoId)
+  })
+
+  public static whereEstadoIs = scope((query, estadoId: string) => {
+    if (estadoId) query.andWhere('estadoId', estadoId)
   })
 
 }

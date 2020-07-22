@@ -11,6 +11,8 @@ export default class Novedads extends BaseSchema {
       table.integer('camara_id').notNullable().references('id').inTable('camaras').onDelete('cascade')
       table.integer('user_id').nullable().references('id').inTable('users').onDelete('cascade')
       table.integer('tipo_id').nullable().references('id').inTable('tipos').onDelete('cascade')
+      table.integer('estado_id').nullable().references('id').inTable('estados').onDelete('cascade')
+      // table.boolean('isopen').defaultTo(true)
       table.timestamps(true)
     })
   }

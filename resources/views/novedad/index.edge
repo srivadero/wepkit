@@ -7,6 +7,7 @@
 </div>
 
 <div class="border-top border-bottom py-2 mb-3">
+
   <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="false">
@@ -46,6 +47,16 @@
           </select>
         </div>
 
+        <div class="form-group">
+          <select class="custom-select custom-select-sm" name="estado">
+            <option value="">Cualquier estado</option>
+            @each(estado in filter.estados)
+            <option value="{{ estado.id}}" {{ estado.id == filter.estado ? 'selected' : ''}}> {{estado.nombre}}
+            </option>
+            @endeach
+          </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Aplicar</button>
         <a class="btn btn-default" href="{{ route('novedad.index') }}">Quitar filtros</a>
       </form>
@@ -60,6 +71,7 @@
       <td>
         {{ datetime(novedad.fecha) }}<br>
         <h5>{{ novedad.camara.nombre }}</h5>
+        {{ novedad.estado ? novedad.estado.nombre : ''}}
       </td>
       <td>
         <small class="text-muted">{{ (novedad.user)? novedad.user.username :''}}</small>

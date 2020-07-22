@@ -3,6 +3,7 @@ import Novedad from 'App/Models/Novedad'
 import Camara from 'App/Models/Camara'
 import User from 'App/Models/User'
 import Tipo from 'App/Models/Tipo'
+import Estado from 'App/Models/Estado'
 import NovedadEditValidator from 'App/Validators/novedad/EditValidator'
 import NovedadCreateValidator from 'App/Validators/novedad/CreateValidator'
 
@@ -25,9 +26,11 @@ export default class NovedadsController {
       camaras: await Camara.query().orderBy('nombre', 'asc'),
       usuarios: await User.query().orderBy('username', 'asc'),
       tipos: await Tipo.query().orderBy('nombre', 'asc'),
+      estados: await Estado.query().orderBy('nombre', 'asc'),
       camara: request.get().camara,
       usuario: request.get().usuario,
       tipo: request.get().tipo,
+      estado: request.get().estado,
     }
 
     const order: orderType = {
@@ -42,9 +45,11 @@ export default class NovedadsController {
       .apply((scopes) => { scopes.whereCamaraIs(filter.camara) })
       .apply((scopes) => { scopes.whereUserIs(filter.usuario) })
       .apply((scopes) => { scopes.whereTipoIs(filter.tipo) })
+      .apply((scopes) => { scopes.whereEstadoIs(filter.estado) })
       .preload('camara')
       .preload('user')
       .preload('tipo')
+      .preload('estado')
       .orderBy(order.field, order.direction)
       .paginate(page, 20)
     const novedades = pagination.all()
@@ -70,6 +75,7 @@ export default class NovedadsController {
         novedad.camaraId = elem
         if (auth.user) novedad.userId = auth.user!.id
         novedad.tipoId = data.tipo
+        novedad.estadoId = 1
         await novedad.save()
       }
     })
@@ -79,11 +85,12 @@ export default class NovedadsController {
 
   public async edit({ params, response, session, view }: HttpContextContract) {
     const novedad = await Novedad.find(params.id)
+    const estados = await Estado.query().orderBy('nombre', 'asc')
     if (!novedad) {
       session.flash({ error: Message.NOT_FOUND })
       return response.redirect().toRoute('novedad.index')
     }
-    return view.render('novedad/edit', { novedad })
+    return view.render('novedad/edit', { novedad, estados })
   }
 
   public async update({ params, request, response, session }: HttpContextContract) {
