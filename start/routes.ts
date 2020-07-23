@@ -32,8 +32,5 @@ Route.group(() => {
   Route.get('novedad/:id/edit', 'NovedadsController.edit').as('novedad.edit')
   Route.post('novedad/:id/edit', 'NovedadsController.update').as('novedad.update')
   Route.get('novedad/:id', 'NovedadsController.show').as('novedad.show')
-  // Route.post('_novedad/filter', 'NovedadsController.filter').as('novedad.filter')
-  // Route.get('_novedad/nofilter', 'NovedadsController.removeFilter').as('novedad.removeFilter')
 })//.middleware('auth')
 
-// Route.get('test', 'NovedadsController.newindex').as('novedad.index')

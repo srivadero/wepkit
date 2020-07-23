@@ -15,14 +15,16 @@ export default class AppProvider {
     View.global('date', (valor: DateTime) => {
       return valor.toFormat('dd/LL/yyyy')
     })
+
     View.global('datetime', (valor: DateTime) => {
       return valor.toFormat('dd/LL/yyyy HH:mm')
     })
+
     View.global('now', () => {
       const valor = DateTime.local()
-      // console.log(valor.toFormat('dd/LL/yyyy HH:mm'))
       return valor.toFormat('dd/LL/yyyy HH:mm')
     })
+
     View.global('range', (start: number, size: number) => {
       return [...Array(size).keys()].map(i => i + start)
     })

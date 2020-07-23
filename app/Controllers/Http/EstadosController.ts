@@ -9,6 +9,7 @@ enum Message {
 }
 
 export default class EstadosController {
+
   public async index({ view }: HttpContextContract) {
     const estados = await Estado.query().orderBy('nombre', 'asc')
     return view.render('estado/index', { estados: estados })
