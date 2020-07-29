@@ -1,0 +1,46 @@
+// Your variable overrides
+// $body-color: #f08;
+// $body-bg: rgb(247, 247, 247);
+
+$theme-colors: (
+  "light": #bc9368,
+  "secondary": #898989,
+  "primary": #e9540c,
+  "danger": #930c11,
+"dark": #000000,
+);
+
+// $navbar-padding-y: 30px;
+
+// This function gets a color by name
+// @function color($key: "blue") {
+//   @return map-get($colors, $key);
+// }
+
+// This function gets a color by theme-color
+// @function theme-color($key: "primary") {
+//   @return map-get($theme-colors, $key);
+// }
+
+// This function gets a gray scale by percent
+// @function gray($key: "100") {
+//   @return map-get($grays, $key);
+// }
+
+// This function darkens o lightens a color (level positive dark, level negative light)
+// @function theme-color-level($color-name: "primary", $level: 0) {
+//   $color: theme-color($color-name);
+//   $color-base: if($level > 0, #000, #fff);
+//   $level: abs($level);
+//   @return mix($color-base, $color, $level * $theme-color-interval);
+// }
+
+// Example
+// .custom-element {
+//   color: gray("100");
+//   background-color: theme-color("dark");
+//   border-color: color("red")
+// }
+
+@import "../node_modules/bootstrap/scss/bootstrap.scss"
+
