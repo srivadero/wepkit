@@ -5,7 +5,7 @@
   "exclude": [
     "node_modules",
     "build",
-    "**/public/*.scss"
+    "scss"
   ],
   "extends": "./node_modules/adonis-preset-ts/tsconfig",
   "compilerOptions": {
