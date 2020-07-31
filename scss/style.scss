@@ -1,14 +1,4 @@
 // Your variable overrides
-
-
-
-
-// $primary: #c25d5d;
-
-
-
-
-
 $white:    #fff !default;
 $black:    #000 !default;
 
@@ -63,7 +53,6 @@ $colors: map-merge((
 }
 
 /* remap grays */
-
 $gray-100: map-get($colors, gray-100);
 $gray-200: map-get($colors, gray-200);
 $gray-300: map-get($colors, gray-300);
@@ -77,19 +66,8 @@ $gray-900: map-get($colors, gray-900);
 $enable-hover-media-query: true;
 
 /* Bootstrap 4 mixins - no change */
-
 @mixin hover {
-  // TODO: re-enable along with mq4-hover-shim
-//  @if $enable-hover-media-query {
-//    // See Media Queries Level 4: https://drafts.csswg.org/mediaqueries/#hover
-//    // Currently shimmed by https://github.com/twbs/mq4-hover-shim
-//    @media (hover: hover) {
-//      &:hover { @content }
-//    }
-//  }
-//  @else {
     &:hover { @content; }
-//  }
 }
 
 @mixin hover-focus {
@@ -144,7 +122,6 @@ $enable-hover-media-query: true;
 }
 
 /* from Bootstrap 4 utilities - replaced $theme-colors with $colors */
-
 // text colors
 @each $color, $value in $colors {
   @include text-emphasis-variant(".text-#{$color}", $value);
@@ -170,10 +147,8 @@ $enable-hover-media-query: true;
 }
 
 $primary: $purple;
-$secondary: darken($purple, 30%);
-
-
-
+$secondary: darken($primary, 30%);
+$body-bg: lighten($primary, 50%);
+// $body-color:
 
 @import "../node_modules/bootstrap/scss/bootstrap"
-
