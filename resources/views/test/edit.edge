@@ -1,0 +1,22 @@
+@layout('layouts/main')
+
+@section('content')
+<h1>Edicion</h1>
+<div class="row">
+  <div class="col-md-8">
+
+    <form action="{{ route('test.update', {'id': item.id}) }}?_method=PUT" method="POST">
+      {{ csrfField() }}
+
+      @include('test/_form')
+
+      <button type="submit" class="btn btn-primary">Guardar</button>
+      <a href="{{ route('test.index') }}" class="btn btn-link">Cancelar</a>
+    </form>
+  </div>
+  <div class="col md-4">
+    {{ inspect(flashMessages) }}
+  </div>
+</div>
+
+@endsection

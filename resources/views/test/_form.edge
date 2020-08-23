@@ -1,0 +1,36 @@
+<div class="form-group">
+    <label for="input1">Name</label>
+    <input id="input1" class="form-control" type="text" name="name"
+      value="{{ flashMessages.messages ? flashMessages.get('name') : (item ? item.name : '') }}"
+    >
+    @if(flashMessages.has('errors.name'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.name') }}
+    </small>
+    @endif
+</div>
+
+<div class="form-group">
+    <label for="input2">Mail</label>
+    <input id="input2" class="form-control" type="text" name="mail"
+    value="{{ flashMessages.messages ? flashMessages.get('mail') : (item? item.mail: '') }}"
+    >
+    @if(flashMessages.has('errors.mail'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.mail') }}
+    </small>
+    @endif
+</div>
+
+<div class="form-group">
+    <label for="input3">City</label>
+    <input id="input3" class="form-control" type="text" name="city"
+    value="{{ flashMessages.messages ? flashMessages.get('city') : (item? item.city: '') }}"
+    >
+    @if(flashMessages.has('errors.city'))
+    <small class="form-text text-muted">
+      {{ flashMessages.get('errors.city') }}
+    </small>
+    @endif
+</div>
+

@@ -1,0 +1,23 @@
+@layout('layouts/main')
+
+@section('content')
+<h1>Test</h1>
+<a class="btn btn-primary" href="{{ route('test.create') }}">Agregar</a>
+
+<table class="table table-hover">
+  <tbody>
+    @each(item in items)
+    <tr>
+      <td>{{ item.id }}</td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.mail }}</td>
+      <td>{{ item.city }}</td>
+      <td>
+        <a href="{{ route('test.edit', { id: item.id })}}">Editar</a>
+      </td>
+    </tr>
+    @endeach
+  </tbody>
+</table>
+
+@endsection

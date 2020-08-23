@@ -34,3 +34,4 @@ Route.group(() => {
   Route.get('novedad/:id', 'NovedadsController.show').as('novedad.show')
 })//.middleware('auth')
 
+Route.resource('test', 'TestsController')
