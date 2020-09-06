@@ -29,7 +29,7 @@ test.group('Camara', () => {
     assert.equal(title!.textContent!.trim(), 'Edicion de camara')
   })
 
-  test('ensure show page works', async (assert) => {
+  test.skip('ensure show page works', async (assert) => {
     const { text } = await supertest(BASE_URL).get('/camara/1').expect(200)
     const { document } = new JSDOM(text).window
     const title = document.querySelector('h1')
@@ -37,7 +37,7 @@ test.group('Camara', () => {
     assert.equal(title!.textContent!.trim(), 'Camara IP 01')
   })
 
-  test('ensure add novedad works', async (assert) => {
+  test.skip('ensure add novedad works', async (assert) => {
     const { text } = await supertest(BASE_URL).get('/camara/1/novedad/create').expect(200)
     const { document } = new JSDOM(text).window
     const title = document.querySelector('h1')
@@ -45,7 +45,7 @@ test.group('Camara', () => {
     assert.equal(title!.textContent!.trim(), 'Novedad')
   })
 
-  test('ensure edit novedad works', async (assert) => {
+  test.skip('ensure edit novedad works', async (assert) => {
     const { text } = await supertest(BASE_URL).get('/camara/1').expect(200)
     const { document } = new JSDOM(text).window
     const title = document.querySelectorAll('table a')
@@ -57,8 +57,19 @@ test.group('Camara', () => {
     });
   })
 
-  test.skip('ensure validator works', async (_assert) =>  { })
-  test.skip('ensure save method works', async (_assert) =>  { })
-  test.skip('ensure update method works', async (_assert) =>  { })
-  test.skip('ensure delete method works', async (_assert) =>  { })
+  test.skip('ensure validator works', async (_assert) => { })
+  test.skip('ensure save method works', async (_assert) => { })
+  test.skip('ensure update method works', async (_assert) => { })
+  test.skip('ensure delete method works', async (_assert) => { })
+
+  test.skip('USER CAN LOGIN', async (assert) => {
+    const { text } = await supertest(BASE_URL)
+      .post('/register')
+      .field('username', 'TEST_01')
+      .field('email', 'TEST_01')
+      .field('password', 'TEST_01')
+      .field('password_confirmed', 'TEST_01')
+      .expect(200)
+    assert.equal(text, 'Hello')
+  })
 })

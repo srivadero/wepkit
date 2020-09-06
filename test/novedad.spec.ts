@@ -26,7 +26,7 @@ test.group('Novedad', () => {
     const { document } = new JSDOM(text).window
     const title = document.querySelector('h1')
     assert.exists(title)
-    assert.equal(title!.textContent!.trim(), 'Novedad')
+    assert.equal(title!.textContent!.trim(), 'Edicion de Novedad')
   })
 
   test.skip('ensure show page works', async (assert) => {

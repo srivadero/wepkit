@@ -28,6 +28,13 @@ export default class AppProvider {
     View.global('range', (start: number, size: number) => {
       return [...Array(size).keys()].map(i => i + start)
     })
+
+    if(View.GLOBALS['csrfField'] == null)
+    {
+      View.global('csrfField', () => {
+        return 'CSRF_FIELD'
+      })
+    }
   }
 
   public shutdown () {

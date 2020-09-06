@@ -3,18 +3,21 @@ import { join, isAbsolute, sep } from 'path'
 import getPort from 'get-port'
 import { configure } from 'japa'
 import sourceMapSupport from 'source-map-support'
-// import execa from 'execa'
+import execa from 'execa'
+import Camara from 'App/Models/Camara'
 
 process.env.NODE_ENV = 'testing'
+process.env.DB_NAME = 'testing.db'
 process.env.ADONIS_ACE_CWD = join(__dirname, '..')
 sourceMapSupport.install({ handleUncaughtExceptions: false })
 
 async function runMigrations() {
-  // await execa.node('ace', ['migration:run'], { stdio: 'inherit', })
+  await execa.node('ace', ['migration:run'], { stdio: 'inherit', })
+  await execa.node('ace', ['db:seed'], { stdio: 'inherit', })
 }
 
 async function rollbackMigrations() {
-  // await execa.node('ace', ['migration:rollback'], { stdio: 'inherit', })
+  await execa.node('ace', ['migration:rollback'], { stdio: 'inherit', })
 }
 
 async function startHttpServer() {
