@@ -21,4 +21,21 @@ test.group('Auth', () => {
     assert.equal(title!.textContent!.trim(), 'Crear cuenta')
   })
 
+
+  test.only('ensure can login', async (assert) => {
+    const { text } = await supertest(BASE_URL)
+      .post('/login')
+      .field({
+        'uid': 'admin@example.com',
+        'password': 'admin',
+      })
+      .redirects(5)
+      // .expect(200)
+    assert.equal(text, 'AAA')
+    // const { document } = new JSDOM(text).window
+    // const title = document.querySelector('h1')
+    // assert.exists(title)
+    // assert.equal(title!.textContent!.trim(), 'Crear cuenta')
+  })
+
 })

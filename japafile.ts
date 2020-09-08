@@ -4,7 +4,6 @@ import getPort from 'get-port'
 import { configure } from 'japa'
 import sourceMapSupport from 'source-map-support'
 import execa from 'execa'
-import Camara from 'App/Models/Camara'
 
 process.env.NODE_ENV = 'testing'
 process.env.DB_NAME = 'testing.db'

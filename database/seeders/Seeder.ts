@@ -14,6 +14,7 @@ export default class SeederSeeder extends BaseSeeder {
     await Camara.truncate()
     await User.truncate()
     await Tipo.truncate()
+    await Estado.truncate()
 
     // Create admin user
     await User.firstOrCreate({ username: 'admin' },

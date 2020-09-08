@@ -24,6 +24,9 @@ export default class AuthController {
   async login({ auth, request, response }: HttpContextContract) {
     const email = request.input('uid')
     const password = request.input('password')
+    console.log(`Sent uid: ${email} password: ${password}`)
+    request.request.headers['location'] = '/login2'
+    console.log(request.request)
     await auth.attempt(email, password)
 
     response.redirect('/')
